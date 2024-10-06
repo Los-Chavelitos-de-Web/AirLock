@@ -20,6 +20,7 @@ public class Home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_home);
+        replaceFragment(new FrElegant());
 
         btnNav = findViewById(R.id.bottomNavigationView);
 
@@ -41,7 +42,7 @@ public class Home extends AppCompatActivity {
     private void replaceFragment(Fragment f) {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.main, f);
+        ft.replace(R.id.frame_layout, f);
         ft.commit();
     }
 }
