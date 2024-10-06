@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    android:backgroundTint="#075224"
+    android:backgroundTint="#fff"
     tools:context=".MainActivity" >
 
     <ImageButton
@@ -14,12 +14,23 @@
         style="@android:style/Widget.ImageButton"
         android:layout_width="108dp"
         android:layout_height="72dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="36dp"
         android:background="@drawable/border_btn"
         android:backgroundTint="#07524B"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:srcCompat="@drawable/ic_launcher_foreground" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="326dp"
+        android:layout_height="363dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/l_principal" />
 </androidx.constraintlayout.widget.ConstraintLayout>
