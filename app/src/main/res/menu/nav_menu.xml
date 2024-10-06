@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <item android:title="ELEGANT" />
-    <item android:title="CASUAL" />
-    <item android:title="SPORTS" />
+        <item android:id="@+id/elegant" android:title="ELEGANT" />
+    <item android:id="@+id/casual" android:title="CASUAL" />
+    <item android:id="@+id/sports" android:title="SPORTS" />
 </menu>
