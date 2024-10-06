@@ -1,19 +1,29 @@
 package com.lta.airlock;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Clases.RelojP;
+import RV_RelojItem.Reloj_Adapter;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FrElegant#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FrElegant extends Fragment {
+public class FrElegant extends Fragment  {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -58,7 +68,23 @@ public class FrElegant extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_fr_elegant, container, false);
+        RecyclerView rv1 = view.findViewById(R.id.rvRelojHan);
+        RecyclerView rv2 = view.findViewById(R.id.rvRelojCur);
+        List<RelojP> items = new ArrayList<>();
+        items.add(new RelojP("RELOJ 1", "COMUN", Uri.EMPTY, 20.5));
+        items.add(new RelojP("RELOJ 2", "COMUN", Uri.EMPTY, 20.5));
+        items.add(new RelojP("RELOJ 3", "COMUN", Uri.EMPTY, 20.5));
+
+        rv1.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rv1.setAdapter(new Reloj_Adapter(getContext(), items));
+
+        rv2.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rv2.setAdapter(new Reloj_Adapter(getContext(), items));
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fr_elegant, container, false);
+        return view;
+
     }
 }

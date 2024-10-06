@@ -1,6 +1,7 @@
 package RV_RelojItem;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ public class Reloj_ViewHolder extends RecyclerView.ViewHolder {
 
     TextView lblNombreP;
     TextView lblTipoP;
+    ImageView img;
     TextView lblPrecioP;
 
     public Reloj_ViewHolder(@NonNull View itemView) {
