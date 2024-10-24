@@ -12,14 +12,14 @@ import com.lta.airlock.R;
 public class Reloj_ViewHolder extends RecyclerView.ViewHolder {
 
     TextView lblNombreP;
-    TextView lblTipoP;
+    TextView lblCantidadP;
     ImageView img;
     TextView lblPrecioP;
 
     public Reloj_ViewHolder(@NonNull View itemView) {
         super(itemView);
         lblNombreP = itemView.findViewById(R.id.lblNombreP);
-        lblTipoP = itemView.findViewById(R.id.lblTipoP);
+        lblCantidadP = itemView.findViewById(R.id.lblCantidadP);
         lblPrecioP = itemView.findViewById(R.id.lblPrecioP);
     }
 }

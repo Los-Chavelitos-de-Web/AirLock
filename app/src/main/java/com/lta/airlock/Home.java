@@ -10,6 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.lta.airlock.databinding.ActivityMainBinding;
 
+import Fragments.FrCasual;
+import Fragments.FrElegant;
+import Fragments.FrSports;
+
 public class Home extends AppCompatActivity {
 
     ActivityMainBinding binding;

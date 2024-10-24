@@ -18,11 +18,11 @@
             android:layout_height="wrap_content"
             android:text="NOMBRE DEL PRODUCTO"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/lblTipoP"
+            android:id="@+id/lblCantidadP"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TIPO"
@@ -32,11 +32,11 @@
 
         <ImageView
             android:id="@+id/imgReloj"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:srcCompat="@drawable/logo_black"
             android:layout_marginVertical="10sp"
-            android:layout_marginLeft="25sp"/>
+            android:layout_marginLeft="30sp"/>
 
         <TextView
             android:id="@+id/lblPrecioP"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:text="PRECIO"
             android:textAlignment="center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

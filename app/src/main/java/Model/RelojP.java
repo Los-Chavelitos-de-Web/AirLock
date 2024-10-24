@@ -1,4 +1,4 @@
-package Clases;
+package Model;
 
 import android.net.Uri;
 
@@ -7,9 +7,9 @@ public class RelojP {
     String nombre;
     String tipo;
     Uri img;
-    Double precio;
+    Float precio;
 
-    public RelojP(String nombre, String tipo, Uri img, Double precio) {
+    public RelojP(String nombre, String tipo, Uri img, Float precio) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.img = img;
@@ -40,11 +40,11 @@ public class RelojP {
         this.img = img;
     }
 
-    public Double getPrecio() {
+    public Float getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(Float precio) {
         this.precio = precio;
     }
 }
