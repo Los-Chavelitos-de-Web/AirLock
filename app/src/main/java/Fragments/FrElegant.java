@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.lta.airlock.ProductView;
 import com.lta.airlock.R;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Controllers.MySQL.ProductosCtrl;
-import Controllers.SQLite.ProductoCtrl;
+import Controllers.SQLite.CartCtrl;
 import Model.DBHelper;
 import Model.Producto;
 import RV_RelojItem.Reloj_Adapter;
@@ -31,8 +30,6 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
 
     private String mParam1;
     private String mParam2;
-    private DBHelper dbHelper;
-    private ProductoCtrl productoCtrl;
     private List<Producto> productos;  // List of products
 
     private Reloj_Adapter adapter1;
@@ -57,14 +54,6 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-        dbHelper = new DBHelper(getContext());
-        try {
-            dbHelper.createDatabase();
-            productoCtrl = new ProductoCtrl(dbHelper);
-        } catch (IOException e) {
-            Log.e("airlock_555", "Error al crear la base de datos", e);
         }
 
         ProductosCtrl prods = new ProductosCtrl(getContext());

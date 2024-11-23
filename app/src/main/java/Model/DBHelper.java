@@ -1,6 +1,8 @@
 package Model;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -83,4 +85,56 @@ public class DBHelper extends SQLiteOpenHelper {
     public SQLiteDatabase openDatabase() {
         return SQLiteDatabase.openDatabase(databasePath, null, SQLiteDatabase.OPEN_READWRITE);
     }
+
+    // Intern operations
+    public void addProduct(String uri, String prod_name, double price) {
+        if (prod_name == null || prod_name.isEmpty()) {
+            Log.e("airlock_555", "El nombre del producto no puede estar vacío");
+            return;
+        }
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("uri", uri);
+        values.put("prod_name", prod_name);
+        values.put("price", price);
+        values.put("cant", 1);  // Asegúrate de que la cantidad se inicializa en 1
+
+        try {
+            long rowId = db.insert("cart_prods", null, values);
+            if (rowId != -1) {
+                Log.i("airlock_555", "Producto agregado correctamente, ID: " + rowId);
+            } else {
+                Log.e("airlock_555", "Error al insertar el producto en la base de datos");
+            }
+        } catch (Exception e) {
+            Log.e("airlock_555", "Error al agregar producto: " + e.getMessage());
+        } finally {
+            db.close();
+        }
+    }
+
+    public Cursor getAllProducts() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM cart_prods", null);
+    }
+
+    public void updateCant(int productId, String name, double price, int quantity) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("name", name);
+        values.put("price", price);
+        values.put("quantity", quantity);
+
+        // Actualiza el producto por su ID
+        db.update("cart_prods", values, "id = ?", new String[]{String.valueOf(productId)});
+        db.close();
+    }
+
+    public void deleteProduct(int productId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("cart_prods", "id = ?", new String[]{String.valueOf(productId)});
+        db.close();
+    }
+
 }

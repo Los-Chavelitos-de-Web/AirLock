@@ -3,12 +3,22 @@ package Fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.lta.airlock.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Controllers.SQLite.CartCtrl;
+import Model.DBHelper;
+import Model.ProdCart;
+import RV_RelojCartItem.ProdCart_Adapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,12 +65,13 @@ public class FrCasual extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_fr_casual, container, false);
     }
 }
