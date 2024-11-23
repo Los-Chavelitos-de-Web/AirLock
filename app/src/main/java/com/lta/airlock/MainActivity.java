@@ -9,39 +9,49 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import Model.DBHelper;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import Model.DBHelper;
+import Model.Producto;
+
+public class MainActivity extends AppCompatActivity{
 
     ImageButton btnLogin;
     DBHelper dbHelper;
     SQLiteDatabase db;
+    private List<Producto> productos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        dbHelper = new DBHelper(this);
 
-        try {
-            dbHelper.createDatabase();
-        } catch (Exception e) {
-            Log.e("airlock_555", "Error al crear la base de datos", e);
-        }
-
-        db = dbHelper.openDatabase();
-
-        if (db != null) {
-            Toast.makeText(this, "CONNECT", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "DISCONNECT", Toast.LENGTH_SHORT).show();
-        }
+        conDatabase();
 
         btnLogin = findViewById(R.id.btnLogin);
 
         btnLogin.setOnClickListener(v -> {
             goNext();
         });
+
+    }
+
+    private void conDatabase() {
+        try {
+            dbHelper = new DBHelper(this);
+            dbHelper.createDatabase(); // SQLite
+
+            db = dbHelper.openDatabase(); // SQLite
+            if (db != null) {
+                Log.i("airlock_555", "CONNECTED");
+            } else {
+                Log.e("airlock_555", "DISCONNECT");
+                Toast.makeText(this, "DISCONNECT", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            Log.e("airlock_555", "Error al crear la base de datos", e);
+        }
     }
 
     private void goNext() {

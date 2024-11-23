@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -37,7 +39,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.volley)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

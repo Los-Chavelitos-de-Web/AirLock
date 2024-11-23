@@ -17,11 +17,13 @@ import Model.Producto;
 public class Reloj_Adapter extends RecyclerView.Adapter<Reloj_ViewHolder> {
 
     Context ctx;
-    List<Producto> items;
+    List<Producto> productos;
+    private OnItemClickListener listener;
 
-    public Reloj_Adapter(Context ctx, List<Producto> items) {
+    public Reloj_Adapter(Context ctx, List<Producto> items, OnItemClickListener listener) {
         this.ctx = ctx;
-        this.items = items;
+        this.productos = items;
+        this.listener = listener;
     }
 
     @NonNull
@@ -31,17 +33,32 @@ public class Reloj_Adapter extends RecyclerView.Adapter<Reloj_ViewHolder> {
         return new Reloj_ViewHolder(view);
     }
 
+    public void updateData(List<Producto> newProductos) {
+        this.productos = newProductos;
+        notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Producto producto);  // Pass the clicked product
+    }
+
     @Override
     public void onBindViewHolder(@NonNull Reloj_ViewHolder holder, int position) {
-        Producto producto = items.get(position);
+        Producto producto = productos.get(position);
 
         holder.lblNombreP.setText(producto.getNombre() != null ? producto.getNombre() : "Sin nombre");
         holder.lblCantidadP.setText(String.valueOf(producto.getStock()));
-        holder.lblPrecioP.setText(Float.toString(producto.getPrecioCompra()));
+        holder.lblPrecioP.setText(Double.toString(producto.getPrecioCompra()));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(producto);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return productos.size();
     }
 }

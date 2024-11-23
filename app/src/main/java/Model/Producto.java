@@ -6,13 +6,19 @@ public class Producto {
     private int ProductoID;
     private String Nombre;
     private String Descripcion;
-    private Float PrecioCompra;
-    private Float PrecioVenta;
+    private Double PrecioCompra;
+    private Double PrecioVenta;
     private int Stock;
     private int ProveedorID;
-    private Date FechaIngreso;
+    private int FechaIngreso;
 
-    public Producto(int productoID, String nombre, String descripcion, Float precioCompra, Float precioVenta, int stock, int proveedorID, Date fechaIngreso) {
+    public Producto(int productoID, String nombre, String descripcion) {
+        ProductoID = productoID;
+        Nombre = nombre;
+        Descripcion = descripcion;
+    }
+
+    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, int fechaIngreso) {
         ProductoID = productoID;
         Nombre = nombre;
         Descripcion = descripcion;
@@ -47,19 +53,19 @@ public class Producto {
         Descripcion = descripcion;
     }
 
-    public Float getPrecioCompra() {
+    public Double getPrecioCompra() {
         return PrecioCompra;
     }
 
-    public void setPrecioCompra(Float precioCompra) {
+    public void setPrecioCompra(Double precioCompra) {
         PrecioCompra = precioCompra;
     }
 
-    public Float getPrecioVenta() {
+    public Double getPrecioVenta() {
         return PrecioVenta;
     }
 
-    public void setPrecioVenta(Float precioVenta) {
+    public void setPrecioVenta(Double precioVenta) {
         PrecioVenta = precioVenta;
     }
 
@@ -79,11 +85,11 @@ public class Producto {
         ProveedorID = proveedorID;
     }
 
-    public Date getFechaIngreso() {
+    public int getFechaIngreso() {
         return FechaIngreso;
     }
 
-    public void setFechaIngreso(Date fechaIngreso) {
+    public void setFechaIngreso(int fechaIngreso) {
         FechaIngreso = fechaIngreso;
     }
 }
