@@ -47,8 +47,7 @@ public class Reloj_Adapter extends RecyclerView.Adapter<Reloj_ViewHolder> {
         Producto producto = productos.get(position);
 
         holder.lblNombreP.setText(producto.getNombre() != null ? producto.getNombre() : "Sin nombre");
-        holder.lblCantidadP.setText(String.valueOf(producto.getStock()));
-        holder.lblPrecioP.setText(Double.toString(producto.getPrecioCompra()));
+        holder.lblPrecioP.setText(String.format("S/. %s", producto.getPrecioCompra()));
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

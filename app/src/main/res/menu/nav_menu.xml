@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <item android:id="@+id/elegant" android:title="RELOJES" />
-    <item android:id="@+id/casual" android:title="BUSCAR" />
-    <item android:id="@+id/sports" android:title="CARRITO" />
+        <item android:id="@+id/elegant" android:icon="@drawable/reloj_menu" android:title="RELOJES" />
+    <item android:id="@+id/casual" android:icon="@drawable/search_menu" android:title="BUSCAR" />
+    <item android:id="@+id/sports" android:icon="@drawable/cart_menu" android:title="CARRITO" />
 </menu>

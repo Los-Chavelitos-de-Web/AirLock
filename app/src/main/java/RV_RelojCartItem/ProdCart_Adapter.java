@@ -1,6 +1,8 @@
 package RV_RelojCartItem;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,8 @@ import com.lta.airlock.R;
 
 import java.util.List;
 
+import Controllers.SQLite.CartCtrl;
+import Model.DBHelper;
 import Model.ProdCart;
 
 public class ProdCart_Adapter extends RecyclerView.Adapter<ProdCart_ViewHolder> {
@@ -38,6 +42,21 @@ public class ProdCart_Adapter extends RecyclerView.Adapter<ProdCart_ViewHolder> 
         holder.lblNombreProd.setText(producto.getProd_name() != null ? producto.getProd_name() : "Sin nombre");
         holder.lblPrecioProd.setText(String.valueOf(producto.getPrice()));
         holder.txtCantProd.setText(String.valueOf(producto.getCant()));
+
+        holder.txtCantProd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().isEmpty() && Integer.parseInt(s.toString()) >= 1) {
+                    producto.setCant(Integer.parseInt(s.toString()));
+                    new CartCtrl(new DBHelper(ctx)).updateCant(producto.getProd_id(), producto.getCant());
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {}
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
     }
 
     @Override

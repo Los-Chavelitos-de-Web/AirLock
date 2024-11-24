@@ -167,4 +167,65 @@ public class ProductosCtrl {
         requestQueue.add(request);
     }
 
+    public void searchProduct(String text_search, final ProductFetchListener listener) {
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://192.168.100.138:3000/api/v1/searchProducts");
+
+        // Create JSON body to send the product ID in the request body
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("text_search", text_search);
+        } catch (JSONException e) {
+            Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
+        }
+
+        // Use JsonArrayRequest since the response is a JSON array
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
+                String.format("%s/searchProducts", props.getProperty("BACKEND_HOST")),
+                jsonBody.names(),
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        List<Producto> productos = new ArrayList<>();
+                        try {
+                            // Process each product in the JSON array
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject productObject = response.getJSONObject(i);
+
+                                int id = productObject.getInt("ProductoID");
+                                String nombre = productObject.getString("Nombre");
+                                String descripcion = productObject.getString("Descripcion");
+                                Double p_compra = productObject.getDouble("PrecioCompra");
+                                Double p_venta = productObject.getDouble("PrecioVenta");
+                                int stock = productObject.getInt("Stock");
+                                int prov_id = productObject.getInt("ProveedorID");
+                                int fecha_i = productObject.getInt("FechaIngreso");
+
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i);
+                                productos.add(p);
+                            }
+                        } catch (JSONException e) {
+                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                        }
+
+                        // Pass the list of products to the listener
+                        listener.onProductsFetched(productos);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                    }
+                }) {
+            @Override
+            public byte[] getBody() {
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);  // Convert JSON body to byte array
+            }
+        };
+
+        // Add the request to the request queue
+        RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        requestQueue.add(request);
+    }
+
 }

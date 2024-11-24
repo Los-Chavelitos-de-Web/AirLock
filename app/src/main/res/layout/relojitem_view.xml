@@ -23,15 +23,6 @@
             android:textSize="18sp"
             android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/lblCantidadP"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TIPO"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
         <ImageView
             android:id="@+id/imgReloj"
             android:layout_width="100dp"

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +24,7 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
     ImageView img;
     TextView txtNombre;
     TextView txtDescripcion;
+    TextView txtCantidad;
     TextView txtPrice;
     Button btnBack;
     Button btnAddToCart;
@@ -36,6 +38,7 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
 
         txtNombre = findViewById(R.id.txtNombreView);
         txtDescripcion = findViewById(R.id.txtDescripcionView);
+        txtCantidad = findViewById(R.id.txtCantView);
         txtPrice = findViewById(R.id.txtPriceView);
         btnBack = findViewById(R.id.btnBackView);
         btnAddToCart = findViewById(R.id.btnAddToCart);
@@ -48,11 +51,19 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
 
         btnAddToCart.setOnClickListener(v -> {
             // Agrega el producto al carrito
-            cartCtrl.addNewProduct(
-                    "",
-                    producto.getNombre(),
-                    producto.getPrecioCompra()
-            );
+            try {
+
+                cartCtrl.addNewProduct(
+                        producto.getProductoID(),
+                        "",
+                        producto.getNombre(),
+                        producto.getPrecioCompra()
+                );
+                Toast.makeText(v.getContext(), "¡Producto añadido al carrito!", Toast.LENGTH_SHORT).show();
+
+            } catch (Exception e) {
+                Log.e("airlock_555", e.getMessage());
+            }
         });
 
         btnBack.setOnClickListener(v -> {
@@ -67,7 +78,8 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
     private void setData() {
         txtNombre.setText(producto.getNombre());
         txtDescripcion.setText(producto.getDescripcion());
-        txtPrice.setText("" + producto.getPrecioCompra());
+        txtCantidad.setText(String.format("Cantidad: %s", producto.getStock()));
+        txtPrice.setText(String.format("S/. %s", producto.getPrecioCompra()));
     }
 
     @Override

@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.lta.airlock.R;
 
@@ -37,6 +39,9 @@ public class FrSports extends Fragment {
 
     private List<ProdCart> prods_cart;
     private ProdCart_Adapter adapter;
+
+    private Button btnClearCart;
+    private Button btnPay;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -78,10 +83,36 @@ public class FrSports extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fr_sports, container, false);
 
-        try {DBHelper dbHelper = new DBHelper(view.getContext());
+        try {
+            DBHelper dbHelper = new DBHelper(view.getContext());
             CartCtrl cartCtrl = new CartCtrl(dbHelper);
+            RecyclerView rv = view.findViewById(R.id.rvResultProds);
 
             prods_cart = cartCtrl.getAllProducts();
+
+            btnClearCart = view.findViewById(R.id.btnClearCart);
+            btnPay = view.findViewById(R.id.btnPay);
+
+            btnClearCart.setOnClickListener(v -> {
+
+                new android.app.AlertDialog.Builder(view.getContext())
+                        .setMessage("¿Estás seguro de que deseas vaciar el carrito?")
+                        .setCancelable(false) // Esto evita que se cierre tocando fuera del cuadro
+                        .setPositiveButton("Sí", (dialog, id) -> {
+                            cartCtrl.deleteAllProducts();
+
+                            rv.setVisibility(View.GONE);
+                            btnPay.setVisibility(View.GONE);
+                            btnClearCart.setVisibility(View.GONE);
+
+                            Toast.makeText(view.getContext(), "El carrito ha sido vaciado.", Toast.LENGTH_SHORT).show();
+                        })
+                        .setNegativeButton("No", (dialog, id) -> {
+                            dialog.dismiss();
+                        })
+                        .create()
+                        .show();
+            });
 
             if (prods_cart == null) {
                 Log.d("airlock_555", "Is null");
@@ -89,10 +120,13 @@ public class FrSports extends Fragment {
             }
 
             if (prods_cart.isEmpty()) {
+                btnPay.setVisibility(View.GONE);
+                btnClearCart.setVisibility(View.GONE);
+
+                Toast.makeText(view.getContext(), "No se encontraron productos en el carrito.", Toast.LENGTH_LONG).show();
                 Log.d("airlock_555", "No se encontraron productos en el carrito.");
             }
 
-            RecyclerView rv = view.findViewById(R.id.rvResultProds);
             adapter = new ProdCart_Adapter(view.getContext(), prods_cart);
 
             rv.setLayoutManager(new LinearLayoutManager(view.getContext()));

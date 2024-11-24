@@ -9,15 +9,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.lta.airlock.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import Controllers.MySQL.ProductosCtrl;
 import Controllers.SQLite.CartCtrl;
 import Model.DBHelper;
 import Model.ProdCart;
+import Model.Producto;
 import RV_RelojCartItem.ProdCart_Adapter;
 
 /**
@@ -25,12 +29,17 @@ import RV_RelojCartItem.ProdCart_Adapter;
  * Use the {@link FrCasual#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FrCasual extends Fragment {
+public class FrCasual extends Fragment implements ProductosCtrl.ProductFetchListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    private List<Producto> productos;
+    private Button btnSearch;
+    private EditText txtSearch;
+    ProductosCtrl prods;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,12 +75,27 @@ public class FrCasual extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        prods = new ProductosCtrl(getContext());
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_fr_casual, container, false);
+        View v = inflater.inflate(R.layout.fragment_fr_casual, container, false);
+
+        btnSearch = v.findViewById(R.id.btnSearch);
+        txtSearch = v.findViewById(R.id.txtSearch);
+
+        btnSearch.setOnClickListener(view -> {
+            prods.searchProduct(txtSearch.getText().toString(), this);
+        });
+
+        return v;
+    }
+
+    @Override
+    public void onProductsFetched(List<Producto> p) {
+        this.productos = p;
     }
 }

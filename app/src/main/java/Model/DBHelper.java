@@ -87,7 +87,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     // Intern operations
-    public void addProduct(String uri, String prod_name, double price) {
+    public void addProduct(int prod_id, String uri, String prod_name, double price) {
         if (prod_name == null || prod_name.isEmpty()) {
             Log.e("airlock_555", "El nombre del producto no puede estar vacío");
             return;
@@ -95,23 +95,49 @@ public class DBHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("prod_id", prod_id);
         values.put("uri", uri);
         values.put("prod_name", prod_name);
         values.put("price", price);
-        values.put("cant", 1);  // Asegúrate de que la cantidad se inicializa en 1
+        values.put("cant", 1);  // Inicializamos la cantidad en 1
 
         try {
-            long rowId = db.insert("cart_prods", null, values);
-            if (rowId != -1) {
-                Log.i("airlock_555", "Producto agregado correctamente, ID: " + rowId);
+            Cursor cursor = db.rawQuery("SELECT * FROM cart_prods WHERE prod_id = ?", new String[]{String.valueOf(prod_id)});
+
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();  // Nos aseguramos de que el cursor apunte al primer (y único) resultado
+
+                int currentQuantity = cursor.getInt(cursor.getColumnIndex("cant"));
+                cursor.close();
+
+                ContentValues updateValues = new ContentValues();
+                updateValues.put("cant", currentQuantity + 1);
+
+                int rowsAffected = db.update("cart_prods", updateValues, "prod_id = ?", new String[]{String.valueOf(prod_id)});
+                if (rowsAffected > 0) {
+                    Log.i("airlock_555", "Cantidad del producto con ID " + prod_id + " actualizada.");
+                } else {
+                    Log.e("airlock_555", "Error al actualizar la cantidad del producto con ID " + prod_id);
+                }
             } else {
-                Log.e("airlock_555", "Error al insertar el producto en la base de datos");
+                long rowId = db.insert("cart_prods", null, values);
+                if (rowId != -1) {
+                    Log.i("airlock_555", "Producto agregado correctamente, ID: " + rowId);
+                } else {
+                    Log.e("airlock_555", "Error al insertar el producto en la base de datos");
+                }
             }
+
         } catch (Exception e) {
-            Log.e("airlock_555", "Error al agregar producto: " + e.getMessage());
+            Log.e("airlock_555", "Error al agregar o actualizar producto: " + e.getMessage());
         } finally {
-            db.close();
+            db.close();  // Asegurarse de cerrar la base de datos
         }
+    }
+
+    public Cursor getProductForId(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.rawQuery("SELECT * FROM cart_prods WHERE prod_id = ?", new String[]{String.valueOf(id)});
     }
 
     public Cursor getAllProducts() {
@@ -119,7 +145,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM cart_prods", null);
     }
 
-    public void updateCant(int productId, String name, double price, int quantity) {
+    public void updateCant(int productId, int cant) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("cant", cant);
+
+        // Actualiza el producto por su ID
+        db.update("cart_prods", values, "id = ?", new String[]{String.valueOf(productId)});
+        db.close();
+    }
+
+    public void updateProduct(int productId, String name, double price, int quantity) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name", name);
@@ -136,5 +172,18 @@ public class DBHelper extends SQLiteOpenHelper {
         db.delete("cart_prods", "id = ?", new String[]{String.valueOf(productId)});
         db.close();
     }
+
+    public void deleteAllProducts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        try {
+            db.delete("cart_prods", null, null);  // Eliminar todos los registros
+            Log.i("airlock_555", "Todos los productos fueron eliminados correctamente.");
+        } catch (Exception e) {
+            Log.e("airlock_555", "Error al eliminar todos los productos: " + e.getMessage());
+        } finally {
+            db.close();
+        }
+    }
+
 
 }

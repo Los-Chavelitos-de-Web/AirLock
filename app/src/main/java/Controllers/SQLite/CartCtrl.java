@@ -20,8 +20,8 @@ public class CartCtrl {
         this.dbHelper = dbHelper;
     }
 
-    public void addNewProduct(String uri, String prod_name, double price) {
-        dbHelper.addProduct(uri, prod_name, price);
+    public void addNewProduct(int prod_id, String uri, String prod_name, double price) {
+        dbHelper.addProduct(prod_id, uri, prod_name, price);
     }
 
     public List<ProdCart> getAllProducts() {
@@ -49,12 +49,20 @@ public class CartCtrl {
         return prods;
     }
 
+    public void updateCant(int id, int cant) {
+        dbHelper.updateCant(id, cant);
+    }
+
     public void updateProduct(int id, String name, double price, int quantity) {
-        dbHelper.updateCant(id, name, price, quantity);
+        dbHelper.updateProduct(id, name, price, quantity);
     }
 
     public void removeProduct(int id) {
         dbHelper.deleteProduct(id);
+    }
+
+    public void deleteAllProducts() {
+        dbHelper.deleteAllProducts();
     }
 
 }

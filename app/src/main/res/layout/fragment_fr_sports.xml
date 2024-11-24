@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="Fragments.FrSports">
+    tools:context="Fragments.FrSports"
+    android:background="@color/primary_green">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -11,13 +12,36 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvResultProds"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="368dp"
+            android:layout_height="432dp"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnClearCart"
+            android:layout_width="134dp"
+            android:layout_height="49dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/white"
+            android:text="Limpiar"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvResultProds" />
+
+        <Button
+            android:id="@+id/btnPay"
+            android:layout_width="134dp"
+            android:layout_height="49dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:backgroundTint="@color/black"
+            android:text="Ir a pagar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvResultProds" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

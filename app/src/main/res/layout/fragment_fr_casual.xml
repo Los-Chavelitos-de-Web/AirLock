@@ -32,7 +32,7 @@
         </ScrollView>
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/txtSearch"
             android:layout_width="372dp"
             android:layout_height="48dp"
             android:layout_marginTop="16dp"
@@ -52,6 +52,6 @@
             android:text="Buscar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSearch" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
