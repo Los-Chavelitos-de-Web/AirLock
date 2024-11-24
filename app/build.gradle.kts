@@ -39,6 +39,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.flexbox)
     implementation(libs.volley)
     implementation(libs.appcompat)
     implementation(libs.material)

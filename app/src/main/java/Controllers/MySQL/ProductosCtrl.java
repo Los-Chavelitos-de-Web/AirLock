@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -167,7 +168,7 @@ public class ProductosCtrl {
         requestQueue.add(request);
     }
 
-    public void searchProduct(String text_search, final ProductFetchListener listener) {
+    public void searchProduct(String text_search, final ProductFetchListener listener, Context c) {
         Log.i("airlock_555", "Enviando solicitud a la URL: http://192.168.100.138:3000/api/v1/searchProducts");
 
         // Create JSON body to send the product ID in the request body
@@ -214,6 +215,7 @@ public class ProductosCtrl {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(c, error.getMessage(), Toast.LENGTH_SHORT).show();
                         Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
                     }
                 }) {

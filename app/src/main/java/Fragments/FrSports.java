@@ -1,6 +1,7 @@
 package Fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.lta.airlock.R;
+import com.lta.airlock.TotalPayment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +95,16 @@ public class FrSports extends Fragment {
 
             btnClearCart = view.findViewById(R.id.btnClearCart);
             btnPay = view.findViewById(R.id.btnPay);
+
+            btnPay.setOnClickListener(v -> {
+                try {
+                    Intent it = new Intent(view.getContext(), TotalPayment.class);
+                    it.putExtra("products", (Serializable) prods_cart);
+                    startActivity(it);
+                } catch (Exception e) {
+                    Log.e("airlock_555", e.getMessage());
+                }
+            });
 
             btnClearCart.setOnClickListener(v -> {
 

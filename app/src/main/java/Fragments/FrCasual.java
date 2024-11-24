@@ -1,35 +1,38 @@
 package Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.flexbox.JustifyContent;
+import com.lta.airlock.ProductView;
 import com.lta.airlock.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import Controllers.MySQL.ProductosCtrl;
-import Controllers.SQLite.CartCtrl;
-import Model.DBHelper;
-import Model.ProdCart;
 import Model.Producto;
-import RV_RelojCartItem.ProdCart_Adapter;
+import RV_RelojItem.Reloj_Adapter;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FrCasual#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FrCasual extends Fragment implements ProductosCtrl.ProductFetchListener {
+public class FrCasual extends Fragment implements ProductosCtrl.ProductFetchListener, Reloj_Adapter.OnItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,6 +43,8 @@ public class FrCasual extends Fragment implements ProductosCtrl.ProductFetchList
     private Button btnSearch;
     private EditText txtSearch;
     ProductosCtrl prods;
+
+    private Reloj_Adapter adapter;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -86,9 +91,19 @@ public class FrCasual extends Fragment implements ProductosCtrl.ProductFetchList
 
         btnSearch = v.findViewById(R.id.btnSearch);
         txtSearch = v.findViewById(R.id.txtSearch);
+        RecyclerView rv = v.findViewById(R.id.rvResultProds);
+
+        FlexboxLayoutManager flexboxLayoutManager = new FlexboxLayoutManager(v.getContext());
+        flexboxLayoutManager.setAlignItems(AlignItems.CENTER);
+        flexboxLayoutManager.setJustifyContent(JustifyContent.CENTER);
+
+        adapter = new Reloj_Adapter(v.getContext(), new ArrayList<>(), this);
+
+        rv.setLayoutManager(flexboxLayoutManager);
+        rv.setAdapter(adapter);
 
         btnSearch.setOnClickListener(view -> {
-            prods.searchProduct(txtSearch.getText().toString(), this);
+            prods.searchProduct(txtSearch.getText().toString(), this, view.getContext());
         });
 
         return v;
@@ -97,5 +112,18 @@ public class FrCasual extends Fragment implements ProductosCtrl.ProductFetchList
     @Override
     public void onProductsFetched(List<Producto> p) {
         this.productos = p;
+
+        if (productos != null && !productos.isEmpty()) {
+            adapter.updateData(productos);
+        } else {
+            Log.e("airlock_555", "No products found.");
+        }
+    }
+
+    @Override
+    public void onItemClick(Producto producto) {
+        Intent it = new Intent(getContext(), ProductView.class);
+        it.putExtra("product_id", producto.getProductoID());
+        startActivity(it);
     }
 }
