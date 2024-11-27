@@ -9,10 +9,9 @@
     android:layout_marginVertical="5sp" >
 
     <LinearLayout
-        android:layout_width="170sp"
-        android:layout_height="match_parent"
+        android:layout_width="200sp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingVertical="10sp"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -21,7 +20,9 @@
             android:layout_height="wrap_content"
             android:text="NOMBRE DEL PRODUCTO"
             android:textAlignment="center"
-            android:textSize="18sp"
+            android:layout_marginHorizontal="15dp"
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
             android:textStyle="bold"/>
 
         <ImageView
@@ -30,7 +31,7 @@
             android:layout_height="100dp"
             app:srcCompat="@drawable/logo_black"
             android:layout_marginVertical="10sp"
-            android:layout_marginLeft="30sp"/>
+            android:layout_marginLeft="50sp"/>
 
         <TextView
             android:id="@+id/lblPrecioP"
@@ -39,6 +40,7 @@
             android:text="PRECIO"
             android:textAlignment="center"
             android:textSize="18sp"
+            android:layout_marginBottom="10dp"
             android:textStyle="bold"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

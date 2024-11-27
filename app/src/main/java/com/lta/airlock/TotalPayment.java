@@ -16,6 +16,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
+import Controllers.SQLite.CartCtrl;
+import Model.DBHelper;
 import Model.ProdCart;
 import RetrofitMercadoPago.CreatePreferenceResponse;
 import RetrofitMercadoPago.MercadoPagoApi;
@@ -42,7 +44,6 @@ public class TotalPayment extends AppCompatActivity {
         setContentView(R.layout.activity_total_payment);
 
         AssetManager assetManager = this.getAssets();
-        prodsCart = (List<ProdCart>) getIntent().getSerializableExtra("products");
         txtTotalPay = findViewById(R.id.txtTotalPay);
         constraintLayout = findViewById(R.id.constraintLayoutPago);
         try {
@@ -52,6 +53,9 @@ public class TotalPayment extends AppCompatActivity {
             throw new RuntimeException(e);
         }
 
+        DBHelper dbHelper = new DBHelper(getApplicationContext());
+        CartCtrl cartCtrl = new CartCtrl(dbHelper);
+        prodsCart = cartCtrl.getAllProducts();
 
         try {
             retrofit = new Retrofit.Builder()

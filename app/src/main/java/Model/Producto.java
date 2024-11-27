@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.Date;
-
 public class Producto {
     private int ProductoID;
     private String Nombre;
@@ -11,14 +9,9 @@ public class Producto {
     private int Stock;
     private int ProveedorID;
     private int FechaIngreso;
+    private String gen;
 
-    public Producto(int productoID, String nombre, String descripcion) {
-        ProductoID = productoID;
-        Nombre = nombre;
-        Descripcion = descripcion;
-    }
-
-    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, int fechaIngreso) {
+    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, int fechaIngreso, String gen) {
         ProductoID = productoID;
         Nombre = nombre;
         Descripcion = descripcion;
@@ -27,6 +20,7 @@ public class Producto {
         Stock = stock;
         ProveedorID = proveedorID;
         FechaIngreso = fechaIngreso;
+        this.gen = gen;
     }
 
     public int getProductoID() {
@@ -75,6 +69,14 @@ public class Producto {
 
     public void setStock(int stock) {
         Stock = stock;
+    }
+
+    public String getGen() {
+        return gen;
+    }
+
+    public void setGen(String gen) {
+        this.gen = gen;
     }
 
     public int getProveedorID() {

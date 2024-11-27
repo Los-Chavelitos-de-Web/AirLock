@@ -15,7 +15,11 @@ import com.lta.airlock.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import Controllers.MySQL.ProductosCtrl;
 import Controllers.SQLite.CartCtrl;
@@ -27,10 +31,13 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final Set<String> GENM = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Masculino", "Unisex")));
+    private static final Set<String> GENF = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Femenino", "Unisex")));
 
     private String mParam1;
     private String mParam2;
-    private List<Producto> productos;  // List of products
+    private List<Producto> productosM;
+    private List<Producto> productosF;
 
     private Reloj_Adapter adapter1;
     private Reloj_Adapter adapter2;
@@ -57,7 +64,7 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
         }
 
         ProductosCtrl prods = new ProductosCtrl(getContext());
-        prods.getProducts(this);
+        prods.getAllProducts(this);
     }
 
     @Override
@@ -84,14 +91,31 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
 
     @Override
     public void onProductsFetched(List<Producto> p) {
-        this.productos = p;
+        this.productosM = filterElegantProducts(p, GENM);
+        this.productosF = filterElegantProducts(p, GENF);
 
-        if (productos != null && !productos.isEmpty()) {
-            adapter1.updateData(productos);
-            adapter2.updateData(productos);
+        if (productosM != null && !productosM.isEmpty()) {
+
+            if (productosF != null && !productosF.isEmpty()) {
+                adapter1.updateData(productosM);
+                adapter2.updateData(productosF);
+            }
+
         } else {
             Log.e("airlock_555", "No products found.");
         }
+    }
+
+    private List<Producto> filterElegantProducts(List<Producto> ps, Set<String> g) {
+        List<Producto> filteredList = new ArrayList<>();
+
+        for (Producto p : ps) {
+            if (g.contains(p.getGen())) {
+                filteredList.add(p);
+            }
+        }
+
+        return filteredList;
     }
 
     @Override

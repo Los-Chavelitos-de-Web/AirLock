@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/lblNombreProd"
                 android:layout_width="match_parent"
-                android:layout_height="70sp"
+                android:layout_height="wrap_content"
                 android:text="NOMBRE DEL PRODUCTO"
                 android:textAlignment="textStart"
                 android:textSize="24sp"

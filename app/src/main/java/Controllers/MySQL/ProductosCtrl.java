@@ -54,10 +54,10 @@ public class ProductosCtrl {
         void onProductsFetched(List<Producto> productos);
     }
 
-    public void getProducts(final ProductFetchListener listener) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://192.168.100.138:3000/api/v1/products");
+    public void getAllProducts(final ProductFetchListener listener) {
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/products");
 
-        StringRequest request = new StringRequest(Request.Method.GET, String.format("%s/products", props.getProperty("BACKEND_HOST")),
+        StringRequest request = new StringRequest(Request.Method.GET, String.format("%s:3000/api/v1/products", props.getProperty("BACKEND_HOST")),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -83,10 +83,11 @@ public class ProductosCtrl {
                                 int stock = object.getInt("Stock");
                                 int prov_id = object.getInt("ProveedorID");
                                 int fecha_i = object.getInt("FechaIngreso");
+                                String gen = object.getString("Genero");
 
                                 p = new Producto(
                                         id, nombre, descripcion, p_compra,
-                                        p_venta, stock, prov_id, fecha_i
+                                        p_venta, stock, prov_id, fecha_i, gen
                                 );
                                 productos.add(p);
                             }
@@ -108,7 +109,7 @@ public class ProductosCtrl {
     }
 
     public void getProductsForId(final ProductFetchListener listener, int id) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://192.168.100.138:3000/api/v1/products");
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/products");
 
         // Create JSON body to send the product ID in the request body
         JSONObject jsonBody = new JSONObject();
@@ -120,7 +121,7 @@ public class ProductosCtrl {
 
         // Use JsonArrayRequest since the response is a JSON array
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
-                String.format("%s/products", props.getProperty("BACKEND_HOST")),
+                String.format("%s:3000/api/v1/products", props.getProperty("BACKEND_HOST")),
                 jsonBody.names(),
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -139,8 +140,9 @@ public class ProductosCtrl {
                                 int stock = productObject.getInt("Stock");
                                 int prov_id = productObject.getInt("ProveedorID");
                                 int fecha_i = productObject.getInt("FechaIngreso");
+                                String gem = productObject.getString("Genero");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i);
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem);
                                 productos.add(p);
                             }
                         } catch (JSONException e) {
@@ -169,7 +171,7 @@ public class ProductosCtrl {
     }
 
     public void searchProduct(String text_search, final ProductFetchListener listener, Context c) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://192.168.100.138:3000/api/v1/searchProducts");
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/searchProducts");
 
         // Create JSON body to send the product ID in the request body
         JSONObject jsonBody = new JSONObject();
@@ -181,7 +183,7 @@ public class ProductosCtrl {
 
         // Use JsonArrayRequest since the response is a JSON array
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
-                String.format("%s/searchProducts", props.getProperty("BACKEND_HOST")),
+                String.format("%s:3000/api/v1/searchProducts", props.getProperty("BACKEND_HOST")),
                 jsonBody.names(),
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -200,8 +202,9 @@ public class ProductosCtrl {
                                 int stock = productObject.getInt("Stock");
                                 int prov_id = productObject.getInt("ProveedorID");
                                 int fecha_i = productObject.getInt("FechaIngreso");
+                                String gen = productObject.getString("Genero");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i);
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gen);
                                 productos.add(p);
                             }
                         } catch (JSONException e) {

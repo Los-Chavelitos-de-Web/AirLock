@@ -3,29 +3,34 @@ package Model;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 public class ProdCart implements Parcelable {
 
-    private int prod_id;
+    private int cart_id;
     private Uri uri;
     private String title;
     private Double unit_price;
     private int quantity;
+    private int prod_id;
     private String currency_id;
 
-    public ProdCart(int prod_id, Uri uri, String prod_name, Double price, int cant) {
-        this.prod_id = prod_id;
+    public ProdCart(int cart_id, Uri uri, String prod_name, Double price, int cant, int prod_id) {
+        this.cart_id = cart_id;
         this.uri = uri;
         this.title = prod_name;
         this.unit_price = price;
         this.quantity = cant;
+        this.prod_id = prod_id;
         this.currency_id = "PEN";
     }
 
     protected ProdCart(Parcel in) {
+        cart_id = in.readInt();
         prod_id = in.readInt();
+        quantity = in.readInt();
         uri = in.readParcelable(Uri.class.getClassLoader());
         title = in.readString();
         currency_id = in.readString();
@@ -34,7 +39,6 @@ public class ProdCart implements Parcelable {
         } else {
             unit_price = in.readDouble();
         }
-        quantity = in.readInt();
     }
 
     public static final Creator<ProdCart> CREATOR = new Creator<ProdCart>() {
@@ -49,6 +53,14 @@ public class ProdCart implements Parcelable {
         }
     };
 
+    public int getProd_id() {
+        return prod_id;
+    }
+
+    public void setProd_id(int prod_id) {
+        this.prod_id = prod_id;
+    }
+
     public String getCurrency_id() {
         return currency_id;
     }
@@ -57,12 +69,12 @@ public class ProdCart implements Parcelable {
         this.currency_id = currency_id;
     }
 
-    public int getProd_id() {
-        return prod_id;
+    public int getCart_id() {
+        return cart_id;
     }
 
-    public void setProd_id(int prod_id) {
-        this.prod_id = prod_id;
+    public void setCart_id(int prod_id) {
+        this.cart_id = prod_id;
     }
 
     public Uri getUri() {
@@ -104,16 +116,15 @@ public class ProdCart implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeInt(prod_id);
+        parcel.writeInt(cart_id);
         parcel.writeParcelable(uri, i);
         parcel.writeString(title);
         parcel.writeString(currency_id);
+        parcel.writeInt(quantity);
         if (unit_price == null) {
             parcel.writeByte((byte) 0);
         } else {
-            parcel.writeByte((byte) 1);
             parcel.writeDouble(unit_price);
         }
-        parcel.writeInt(quantity);
     }
 }

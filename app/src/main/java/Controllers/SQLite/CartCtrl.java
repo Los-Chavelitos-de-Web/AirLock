@@ -35,8 +35,9 @@ public class CartCtrl {
                     String name = cursor.getString(cursor.getColumnIndex("prod_name"));
                     double price = cursor.getDouble(cursor.getColumnIndex("price"));
                     int quantity = cursor.getInt(cursor.getColumnIndex("cant"));
+                    int prod_id = cursor.getInt(cursor.getColumnIndex("prod_id"));
 
-                    prods.add(new ProdCart(id, Uri.EMPTY, name, price, quantity));
+                    prods.add(new ProdCart(id, Uri.EMPTY, name, price, quantity, prod_id));
                 }
                 cursor.close();
             } else {

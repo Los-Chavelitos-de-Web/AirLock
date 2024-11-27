@@ -48,7 +48,7 @@ public class ProdCart_Adapter extends RecyclerView.Adapter<ProdCart_ViewHolder> 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (!s.toString().isEmpty() && Integer.parseInt(s.toString()) >= 1) {
                     producto.setCant(Integer.parseInt(s.toString()));
-                    new CartCtrl(new DBHelper(ctx)).updateCant(producto.getProd_id(), producto.getCant());
+                    new CartCtrl(new DBHelper(ctx)).updateCant(producto.getCart_id(), producto.getCant());
                 }
             }
 
