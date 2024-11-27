@@ -84,10 +84,12 @@ public class ProductosCtrl {
                                 int prov_id = object.getInt("ProveedorID");
                                 int fecha_i = object.getInt("FechaIngreso");
                                 String gen = object.getString("Genero");
+                                String marca = object.getString("Marca");
 
                                 p = new Producto(
                                         id, nombre, descripcion, p_compra,
-                                        p_venta, stock, prov_id, fecha_i, gen
+                                        p_venta, stock, prov_id, fecha_i, gen,
+                                        marca
                                 );
                                 productos.add(p);
                             }
@@ -104,6 +106,70 @@ public class ProductosCtrl {
             }
         });
 
+        RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        requestQueue.add(request);
+    }
+
+    public void getProductsSimilary(final ProductFetchListener listener, String gen, String marca) {
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/productsSimilary");
+
+        // Create JSON body to send the product ID in the request body
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("genero", gen);
+            jsonBody.put("marca", marca);
+        } catch (JSONException e) {
+            Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
+        }
+
+        // Use JsonArrayRequest since the response is a JSON array
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
+                String.format("%s:3000/api/v1/productsSimilary", props.getProperty("BACKEND_HOST")),
+                jsonBody.names(),
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        List<Producto> productos = new ArrayList<>();
+                        try {
+                            // Process each product in the JSON array
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject productObject = response.getJSONObject(i);
+
+                                int id = productObject.getInt("ProductoID");
+                                String nombre = productObject.getString("Nombre");
+                                String descripcion = productObject.getString("Descripcion");
+                                Double p_compra = productObject.getDouble("PrecioCompra");
+                                Double p_venta = productObject.getDouble("PrecioVenta");
+                                int stock = productObject.getInt("Stock");
+                                int prov_id = productObject.getInt("ProveedorID");
+                                int fecha_i = productObject.getInt("FechaIngreso");
+                                String gem = productObject.getString("Genero");
+                                String marca = productObject.getString("Marca");
+
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca);
+                                productos.add(p);
+                            }
+                        } catch (JSONException e) {
+                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                        }
+
+                        // Pass the list of products to the listener
+                        listener.onProductsFetched(productos);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                    }
+                }) {
+            @Override
+            public byte[] getBody() {
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);  // Convert JSON body to byte array
+            }
+        };
+
+        // Add the request to the request queue
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         requestQueue.add(request);
     }
@@ -141,8 +207,9 @@ public class ProductosCtrl {
                                 int prov_id = productObject.getInt("ProveedorID");
                                 int fecha_i = productObject.getInt("FechaIngreso");
                                 String gem = productObject.getString("Genero");
+                                String marca = productObject.getString("Marca");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem);
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca);
                                 productos.add(p);
                             }
                         } catch (JSONException e) {
@@ -202,9 +269,10 @@ public class ProductosCtrl {
                                 int stock = productObject.getInt("Stock");
                                 int prov_id = productObject.getInt("ProveedorID");
                                 int fecha_i = productObject.getInt("FechaIngreso");
-                                String gen = productObject.getString("Genero");
+                                String gem = productObject.getString("Genero");
+                                String marca = productObject.getString("Marca");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gen);
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca);
                                 productos.add(p);
                             }
                         } catch (JSONException e) {

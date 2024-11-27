@@ -9,15 +9,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Controllers.MySQL.ProductosCtrl;
 import Controllers.SQLite.CartCtrl;
 import Model.DBHelper;
 import Model.Producto;
+import RV_RelojItem.Reloj_Adapter;
 
-public class ProductView extends AppCompatActivity implements ProductosCtrl.ProductFetchListener {
+public class ProductView extends AppCompatActivity implements ProductosCtrl.ProductFetchListener, Reloj_Adapter.OnItemClickListener {
 
     int productId;
     Producto producto;
@@ -30,6 +34,9 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
     Button btnAddToCart;
     CartCtrl cartCtrl;
     DBHelper dbHelper;
+    List<Producto> similaryProds;
+    Reloj_Adapter adapter;
+    RecyclerView rv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +49,21 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
         txtPrice = findViewById(R.id.txtPriceView);
         btnBack = findViewById(R.id.btnBackView);
         btnAddToCart = findViewById(R.id.btnAddToCart);
+        rv = findViewById(R.id.listSimilariesProducts);
 
         loadData();
         dbHelper = new DBHelper(this);
         cartCtrl = new CartCtrl(dbHelper);
+        setData();
+
         ProductosCtrl prods = new ProductosCtrl(this);
-        prods.getProductsForId(this, productId);
+        prods.getProductsSimilary(this, producto.getGen(), producto.getMarca());
+        adapter = new Reloj_Adapter(getApplicationContext(), new ArrayList<>(), this);
+
+        rv.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
+        rv.setAdapter(adapter);
 
         btnAddToCart.setOnClickListener(v -> {
-            // Agrega el producto al carrito
             try {
 
                 cartCtrl.addNewProduct(
@@ -73,6 +86,15 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
 
     public void loadData() {
         productId = getIntent().getIntExtra("product_id", -1);
+        producto = new Producto(
+            productId,
+            getIntent().getStringExtra("nombre"),
+            getIntent().getStringExtra("descripcion"),
+            getIntent().getDoubleExtra("precio", 0),
+            getIntent().getIntExtra("cant", 0),
+            getIntent().getStringExtra("gen"),
+            getIntent().getStringExtra("marca")
+        );
     }
 
     private void setData() {
@@ -84,7 +106,18 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
 
     @Override
     public void onProductsFetched(List<Producto> p) {
-        this.producto = p.get(0);
-        setData();
+        similaryProds = p;
+
+        if (similaryProds != null && !similaryProds.isEmpty()) {
+            adapter.updateData(similaryProds);
+
+        } else {
+            Log.e("airlock_555", "No products found.");
+        }
+    }
+
+    @Override
+    public void onItemClick(Producto producto) {
+
     }
 }

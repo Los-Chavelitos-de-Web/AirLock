@@ -10,8 +10,19 @@ public class Producto {
     private int ProveedorID;
     private int FechaIngreso;
     private String gen;
+    private String marca;
 
-    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, int fechaIngreso, String gen) {
+    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, int stock, String gen, String marca) {
+        ProductoID = productoID;
+        Nombre = nombre;
+        Descripcion = descripcion;
+        PrecioCompra = precioCompra;
+        Stock = stock;
+        this.gen = gen;
+        this.marca = marca;
+    }
+
+    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, int fechaIngreso, String gen, String marca) {
         ProductoID = productoID;
         Nombre = nombre;
         Descripcion = descripcion;
@@ -21,6 +32,7 @@ public class Producto {
         ProveedorID = proveedorID;
         FechaIngreso = fechaIngreso;
         this.gen = gen;
+        this.marca = marca;
     }
 
     public int getProductoID() {
@@ -81,6 +93,14 @@ public class Producto {
 
     public int getProveedorID() {
         return ProveedorID;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
     }
 
     public void setProveedorID(int proveedorID) {
