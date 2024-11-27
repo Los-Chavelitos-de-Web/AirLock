@@ -73,27 +73,32 @@ public class TotalPayment extends AppCompatActivity {
         }
 
         constraintLayout.setOnClickListener(v -> {
-            api.createPreference(prodsCart).enqueue(new Callback<CreatePreferenceResponse>() {
-                @Override
-                public void onResponse(Call<CreatePreferenceResponse> call, Response<CreatePreferenceResponse> response) {
-                    if (response.isSuccessful()) {
-                        String preferenceId = response.body().getPreferenceId();
+                api.createPreference(prodsCart).enqueue(new Callback<CreatePreferenceResponse>() {
+                    @Override
+                    public void onResponse(Call<CreatePreferenceResponse> call, Response<CreatePreferenceResponse> response) {
+                        if (response.isSuccessful()) {
+                            String preferenceId = response.body().getPreferenceId();
 
-                        String url = "https://www.mercadopago.com.pe/checkout/v1/redirect/?pref_id=" + preferenceId;
+                            String url = "https://www.mercadopago.com.pe/checkout/v1/redirect/?pref_id=" + preferenceId;
 
-                        // Crea un Intent para abrir el navegador con la URL
-                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                        startActivity(browserIntent); // Abre el navegador
-                    } else {
-                        Log.e("airlock_555", "Error en la creación de la preferencia");
+                            try {
+                                // Crea un Intent para abrir el navegador con la URL
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                startActivity(browserIntent); // Abre el navegador
+                            } catch (Exception e) {
+                                Log.e("airlick_555", e.getMessage());
+                            }
+                        } else {
+                            Log.e("airlock_555", "Error en la creación de la preferencia");
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<CreatePreferenceResponse> call, Throwable t) {
-                    Log.e("airlock_555", "Error de conexión", t);
-                }
-            });
+                    @Override
+                    public void onFailure(Call<CreatePreferenceResponse> call, Throwable t) {
+                        Log.e("airlock_555", "Error de conexión", t);
+                    }
+                });
+
         });
 
         txtTotalPay.setText(String.format("S/. %s", totalPago));
