@@ -19,6 +19,7 @@ public class Reloj_ViewHolder extends RecyclerView.ViewHolder {
     public Reloj_ViewHolder(@NonNull View itemView) {
         super(itemView);
         lblNombreP = itemView.findViewById(R.id.lblNombreP);
+        img = itemView.findViewById(R.id.imgReloj);
         lblPrecioP = itemView.findViewById(R.id.lblPrecioP);
     }
 }

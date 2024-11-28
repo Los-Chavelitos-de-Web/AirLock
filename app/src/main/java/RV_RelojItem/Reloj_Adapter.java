@@ -1,6 +1,7 @@
 package RV_RelojItem;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.lta.airlock.R;
 
 import java.util.List;
@@ -48,10 +50,10 @@ public class Reloj_Adapter extends RecyclerView.Adapter<Reloj_ViewHolder> {
 
         holder.lblNombreP.setText(producto.getNombre() != null ? producto.getNombre() : "Sin nombre");
 
-        /*String imageUrl = producto.getImg(); // Este es el string con la URL de la imagen
+        String imageUrl = producto.getImg();
         Glide.with(holder.itemView.getContext())
                 .load(imageUrl)
-                .into(holder.img);*/
+                .into(holder.img);
 
         holder.lblPrecioP.setText(String.format("S/. %s", producto.getPrecioCompra()));
 

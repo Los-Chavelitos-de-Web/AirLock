@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.lta.airlock.R;
 
 import java.util.List;
@@ -42,6 +43,11 @@ public class ProdCart_Adapter extends RecyclerView.Adapter<ProdCart_ViewHolder> 
         holder.lblNombreProd.setText(producto.getProd_name() != null ? producto.getProd_name() : "Sin nombre");
         holder.lblPrecioProd.setText(String.valueOf(producto.getPrice()));
         holder.txtCantProd.setText(String.valueOf(producto.getCant()));
+
+        String imageUrl = producto.getUri();
+        Glide.with(holder.itemView.getContext())
+                .load(imageUrl)
+                .into(holder.uri);
 
         holder.txtCantProd.addTextChangedListener(new TextWatcher() {
             @Override

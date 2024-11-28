@@ -130,6 +130,7 @@ public class FrCasual extends Fragment implements ProductosCtrl.ProductFetchList
         it.putExtra("cant", producto.getStock());
         it.putExtra("gen", producto.getGen());
         it.putExtra("marca", producto.getMarca());
+        it.putExtra("img", producto.getImg());
         startActivity(it);
     }
 }

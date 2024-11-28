@@ -10,14 +10,14 @@ import androidx.annotation.NonNull;
 public class ProdCart implements Parcelable {
 
     private int cart_id;
-    private Uri uri;
+    private String uri;
     private String title;
     private Double unit_price;
     private int quantity;
     private int prod_id;
     private String currency_id;
 
-    public ProdCart(int cart_id, Uri uri, String prod_name, Double price, int cant, int prod_id) {
+    public ProdCart(int cart_id, String uri, String prod_name, Double price, int cant, int prod_id) {
         this.cart_id = cart_id;
         this.uri = uri;
         this.title = prod_name;
@@ -77,11 +77,11 @@ public class ProdCart implements Parcelable {
         this.cart_id = prod_id;
     }
 
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 
@@ -117,7 +117,7 @@ public class ProdCart implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
         parcel.writeInt(cart_id);
-        parcel.writeParcelable(uri, i);
+        parcel.writeString(uri);
         parcel.writeString(title);
         parcel.writeString(currency_id);
         parcel.writeInt(quantity);

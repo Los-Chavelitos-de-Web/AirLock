@@ -58,9 +58,9 @@ public class ProductosCtrl {
 
 
     public void getAllProducts(final ProductFetchListener listener) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/products");
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/products");
 
-        StringRequest request = new StringRequest(Request.Method.GET, String.format("%s:3000/api/v1/products", props.getProperty("BACKEND_HOST")),
+        StringRequest request = new StringRequest(Request.Method.GET, String.format("%s/api/v1/products", props.getProperty("BACKEND_HOST")),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -115,7 +115,7 @@ public class ProductosCtrl {
     }
 
     public void getProductsSimilary(final ProductFetchListener listener, String gen, String marca) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/productsSimilary");
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/productsSimilary");
 
         // Create JSON body to send the product ID in the request body
         JSONObject jsonBody = new JSONObject();
@@ -128,7 +128,7 @@ public class ProductosCtrl {
 
         // Use JsonArrayRequest since the response is a JSON array
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
-                String.format("%s:3000/api/v1/productsSimilary", props.getProperty("BACKEND_HOST")),
+                String.format("%s/api/v1/productsSimilary", props.getProperty("BACKEND_HOST")),
                 jsonBody.names(),
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -180,7 +180,7 @@ public class ProductosCtrl {
     }
 
     public void getProductsForId(final ProductFetchListener listener, int id) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/products");
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/products");
 
         // Create JSON body to send the product ID in the request body
         JSONObject jsonBody = new JSONObject();
@@ -192,7 +192,7 @@ public class ProductosCtrl {
 
         // Use JsonArrayRequest since the response is a JSON array
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
-                String.format("%s:3000/api/v1/products", props.getProperty("BACKEND_HOST")),
+                String.format("%s/api/v1/products", props.getProperty("BACKEND_HOST")),
                 jsonBody.names(),
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -244,7 +244,7 @@ public class ProductosCtrl {
     }
 
     public void searchProduct(String text_search, final ProductFetchListener listener, Context c) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/searchProducts");
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/searchProducts");
 
         // Create JSON body to send the product ID in the request body
         JSONObject jsonBody = new JSONObject();
@@ -256,7 +256,7 @@ public class ProductosCtrl {
 
         // Use JsonArrayRequest since the response is a JSON array
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
-                String.format("%s:3000/api/v1/searchProducts", props.getProperty("BACKEND_HOST")),
+                String.format("%s/api/v1/searchProducts", props.getProperty("BACKEND_HOST")),
                 jsonBody.names(),
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -316,7 +316,7 @@ public class ProductosCtrl {
             String email,
             String pssw
     ) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/create-user");
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/create-user");
 
         // Crear cuerpo JSON para enviar los datos del usuario
         JSONObject jsonBody = new JSONObject();
@@ -332,7 +332,7 @@ public class ProductosCtrl {
 
         // Usar JsonObjectRequest porque la respuesta es un objeto JSON
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                String.format("%s:3000/api/v1/create-user", props.getProperty("BACKEND_HOST")),
+                String.format("%s/api/v1/create-user", props.getProperty("BACKEND_HOST")),
                 jsonBody,  // Cuerpo JSON a enviar
                 new Response.Listener<JSONObject>() {
                     @Override

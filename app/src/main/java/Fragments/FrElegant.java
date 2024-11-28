@@ -128,6 +128,7 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
         it.putExtra("cant", producto.getStock());
         it.putExtra("gen", producto.getGen());
         it.putExtra("marca", producto.getMarca());
+        it.putExtra("img", producto.getImg());
         startActivity(it);
     }
 }

@@ -59,7 +59,7 @@ public class TotalPayment extends AppCompatActivity {
 
         try {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(String.format("%s:3000/", props.getProperty("BACKEND_HOST")))
+                    .baseUrl(String.format("%s/", props.getProperty("BACKEND_HOST")))
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 
@@ -82,11 +82,10 @@ public class TotalPayment extends AppCompatActivity {
                             String url = "https://www.mercadopago.com.pe/checkout/v1/redirect/?pref_id=" + preferenceId;
 
                             try {
-                                // Crea un Intent para abrir el navegador con la URL
                                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                startActivity(browserIntent); // Abre el navegador
+                                startActivity(browserIntent);
                             } catch (Exception e) {
-                                Log.e("airlick_555", e.getMessage());
+                                Log.e("airlock_555", e.getMessage());
                             }
                         } else {
                             Log.e("airlock_555", "Error en la creación de la preferencia");

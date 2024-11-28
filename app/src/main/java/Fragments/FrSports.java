@@ -141,6 +141,7 @@ public class FrSports extends Fragment {
             }
 
             adapter = new ProdCart_Adapter(view.getContext(), prods_cart);
+            Log.i("airlock_555", prods_cart.get(0).getUri());
 
             rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
             rv.setAdapter(adapter);

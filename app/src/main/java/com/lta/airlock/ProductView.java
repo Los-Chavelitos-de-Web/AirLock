@@ -1,5 +1,6 @@
 package com.lta.airlock;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
     TextView txtPrice;
     Button btnBack;
     Button btnAddToCart;
+    ImageView ivProdView;
     CartCtrl cartCtrl;
     DBHelper dbHelper;
     List<Producto> similaryProds;
@@ -50,6 +54,7 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
         btnBack = findViewById(R.id.btnBackView);
         btnAddToCart = findViewById(R.id.btnAddToCart);
         rv = findViewById(R.id.listSimilariesProducts);
+        ivProdView = findViewById(R.id.ivProdView);
 
         loadData();
         dbHelper = new DBHelper(this);
@@ -68,7 +73,7 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
 
                 cartCtrl.addNewProduct(
                         producto.getProductoID(),
-                        "",
+                        producto.getImg(),
                         producto.getNombre(),
                         producto.getPrecioCompra()
                 );
@@ -93,7 +98,8 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
             getIntent().getDoubleExtra("precio", 0),
             getIntent().getIntExtra("cant", 0),
             getIntent().getStringExtra("gen"),
-            getIntent().getStringExtra("marca")
+            getIntent().getStringExtra("marca"),
+            getIntent().getStringExtra("img")
         );
     }
 
@@ -102,6 +108,10 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
         txtDescripcion.setText(producto.getDescripcion());
         txtCantidad.setText(String.format("Cantidad: %s", producto.getStock()));
         txtPrice.setText(String.format("S/. %s", producto.getPrecioCompra()));
+
+        Glide.with(getApplicationContext())
+                .load(producto.getImg())
+                .into(ivProdView);
     }
 
     @Override
@@ -118,6 +128,15 @@ public class ProductView extends AppCompatActivity implements ProductosCtrl.Prod
 
     @Override
     public void onItemClick(Producto producto) {
-
+        Intent it = new Intent(getApplicationContext(), ProductView.class);
+        it.putExtra("product_id", producto.getProductoID());
+        it.putExtra("nombre", producto.getNombre());
+        it.putExtra("descripcion", producto.getDescripcion());
+        it.putExtra("precio", producto.getPrecioCompra());
+        it.putExtra("cant", producto.getStock());
+        it.putExtra("gen", producto.getGen());
+        it.putExtra("marca", producto.getMarca());
+        it.putExtra("img", producto.getImg());
+        startActivity(it);
     }
 }
