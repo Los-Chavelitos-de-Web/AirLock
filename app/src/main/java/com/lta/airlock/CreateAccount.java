@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import Controllers.MySQL.ProductosCtrl;
 import Model.Producto;
 
-public class CreateAccount extends AppCompatActivity implements ProductosCtrl.ProductFetchListener {
+public class CreateAccount extends AppCompatActivity {
 
     Button btnRegister;
     ProductosCtrl productosCtrl;
@@ -37,26 +38,32 @@ public class CreateAccount extends AppCompatActivity implements ProductosCtrl.Pr
         txtPassword = findViewById(R.id.txtPassword2);
 
         btnRegister.setOnClickListener(v -> {
-            // goHome();
-            Log.i("airlock_555", productosCtrl.createUser(
-            this,
-                txtNombre.getText().toString(),
-                txtApellidos.getText().toString(),
-                txtTlf.getText().toString(),
-                txtCorreo.getText().toString(),
-                txtPassword.getText().toString()
-            ));
+            // Pasamos un listener para manejar la respuesta
+            productosCtrl.createUser(new ProductosCtrl.CreateUserFetchListener() {
+                 @Override
+                 public void onResponse(int status, String message) {
+                     Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                     Log.i("airlock_555", "Respuesta del servidor: " + message);
+                     if (status == 200) {
+                         finish();
+                     } else {
+                         Toast.makeText(v.getContext(), "Intente más tarde", Toast.LENGTH_SHORT).show();
+                         Log.e("airlock_555", message);
+                     }
+                 }
+
+                 @Override
+                 public void onError(String error) {
+                     Log.e("airlock_555", "Error en la solicitud: " + error);
+                     Toast.makeText(v.getContext(), "Intente más tarde", Toast.LENGTH_SHORT).show();
+                 }
+             },
+            txtNombre.getText().toString(),
+            txtApellidos.getText().toString(),
+            txtTlf.getText().toString(),
+            txtCorreo.getText().toString(),
+            txtPassword.getText().toString());
         });
-
-    }
-
-    private void goHome() {
-        Intent it = new Intent(this, Home.class);
-        startActivity(it);
-    }
-
-    @Override
-    public void onProductsFetched(List<Producto> productos) {
 
     }
 }

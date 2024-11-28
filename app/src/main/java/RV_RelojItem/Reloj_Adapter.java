@@ -47,6 +47,12 @@ public class Reloj_Adapter extends RecyclerView.Adapter<Reloj_ViewHolder> {
         Producto producto = productos.get(position);
 
         holder.lblNombreP.setText(producto.getNombre() != null ? producto.getNombre() : "Sin nombre");
+
+        /*String imageUrl = producto.getImg(); // Este es el string con la URL de la imagen
+        Glide.with(holder.itemView.getContext())
+                .load(imageUrl)
+                .into(holder.img);*/
+
         holder.lblPrecioP.setText(String.format("S/. %s", producto.getPrecioCompra()));
 
         holder.itemView.setOnClickListener(v -> {

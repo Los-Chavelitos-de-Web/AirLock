@@ -1,5 +1,7 @@
 package Model;
 
+import android.net.Uri;
+
 public class Producto {
     private int ProductoID;
     private String Nombre;
@@ -11,6 +13,7 @@ public class Producto {
     private int FechaIngreso;
     private String gen;
     private String marca;
+    private String img;
 
     public Producto(int productoID, String nombre, String descripcion, Double precioCompra, int stock, String gen, String marca) {
         ProductoID = productoID;
@@ -22,7 +25,7 @@ public class Producto {
         this.marca = marca;
     }
 
-    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, int fechaIngreso, String gen, String marca) {
+    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, int fechaIngreso, String gen, String marca, String uri) {
         ProductoID = productoID;
         Nombre = nombre;
         Descripcion = descripcion;
@@ -33,6 +36,15 @@ public class Producto {
         FechaIngreso = fechaIngreso;
         this.gen = gen;
         this.marca = marca;
+        this.img = uri;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public int getProductoID() {

@@ -1,10 +1,8 @@
 package Controllers.MySQL;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -15,7 +13,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.lta.airlock.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +51,12 @@ public class ProductosCtrl {
         void onProductsFetched(List<Producto> productos);
     }
 
+    public interface CreateUserFetchListener {
+        void onResponse(int status, String message);
+        void onError(String error);
+    }
+
+
     public void getAllProducts(final ProductFetchListener listener) {
         Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/products");
 
@@ -85,11 +88,12 @@ public class ProductosCtrl {
                                 int fecha_i = object.getInt("FechaIngreso");
                                 String gen = object.getString("Genero");
                                 String marca = object.getString("Marca");
+                                String img = object.getString("img");
 
                                 p = new Producto(
                                         id, nombre, descripcion, p_compra,
                                         p_venta, stock, prov_id, fecha_i, gen,
-                                        marca
+                                        marca, img
                                 );
                                 productos.add(p);
                             }
@@ -145,8 +149,9 @@ public class ProductosCtrl {
                                 int fecha_i = productObject.getInt("FechaIngreso");
                                 String gem = productObject.getString("Genero");
                                 String marca = productObject.getString("Marca");
+                                String img = productObject.getString("img");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca);
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
                                 productos.add(p);
                             }
                         } catch (JSONException e) {
@@ -208,8 +213,9 @@ public class ProductosCtrl {
                                 int fecha_i = productObject.getInt("FechaIngreso");
                                 String gem = productObject.getString("Genero");
                                 String marca = productObject.getString("Marca");
+                                String img = productObject.getString("img");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca);
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
                                 productos.add(p);
                             }
                         } catch (JSONException e) {
@@ -271,8 +277,9 @@ public class ProductosCtrl {
                                 int fecha_i = productObject.getInt("FechaIngreso");
                                 String gem = productObject.getString("Genero");
                                 String marca = productObject.getString("Marca");
+                                String img = productObject.getString("img");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca);
+                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
                                 productos.add(p);
                             }
                         } catch (JSONException e) {
@@ -301,8 +308,8 @@ public class ProductosCtrl {
         requestQueue.add(request);
     }
 
-    public String createUser(
-            final ProductFetchListener listener,
+    public void createUser(
+            final CreateUserFetchListener listener,
             String nombre,
             String apellidos,
             String tlf,
@@ -310,9 +317,8 @@ public class ProductosCtrl {
             String pssw
     ) {
         Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST:3000/api/v1/create-user");
-        final String[] message = {""};
 
-        // Create JSON body to send the product ID in the request body
+        // Crear cuerpo JSON para enviar los datos del usuario
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("nombre", nombre);
@@ -324,47 +330,41 @@ public class ProductosCtrl {
             Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
         }
 
-        // Use JsonArrayRequest since the response is a JSON array
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
+        // Usar JsonObjectRequest porque la respuesta es un objeto JSON
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
                 String.format("%s:3000/api/v1/create-user", props.getProperty("BACKEND_HOST")),
-                jsonBody.names(),
-                new Response.Listener<JSONArray>() {
+                jsonBody,  // Cuerpo JSON a enviar
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
                         try {
-                            // Process each product in the JSON array
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject productObject = response.getJSONObject(i);
+                            int status = response.getInt("status");
+                            String message = response.getString("message");
 
-                                int status = productObject.getInt("status");
-                                String msj = productObject.getString("message");
+                            // Llamar al listener para manejar la respuesta
+                            listener.onResponse(status, message);
 
-                                message[0] = msj;
-
-                            }
                         } catch (JSONException e) {
                             Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
                         }
-
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                        listener.onError(error.getMessage());  // Llamar al listener en caso de error
                     }
                 }) {
             @Override
             public byte[] getBody() {
-                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);  // Convert JSON body to byte array
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
             }
         };
 
-        // Add the request to the request queue
+        // Añadir la solicitud a la cola de solicitudes
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         requestQueue.add(request);
-
-        return message[0];
     }
 
 }

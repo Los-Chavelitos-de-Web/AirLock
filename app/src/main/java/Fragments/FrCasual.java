@@ -124,6 +124,12 @@ public class FrCasual extends Fragment implements ProductosCtrl.ProductFetchList
     public void onItemClick(Producto producto) {
         Intent it = new Intent(getContext(), ProductView.class);
         it.putExtra("product_id", producto.getProductoID());
+        it.putExtra("nombre", producto.getNombre());
+        it.putExtra("descripcion", producto.getDescripcion());
+        it.putExtra("precio", producto.getPrecioCompra());
+        it.putExtra("cant", producto.getStock());
+        it.putExtra("gen", producto.getGen());
+        it.putExtra("marca", producto.getMarca());
         startActivity(it);
     }
 }

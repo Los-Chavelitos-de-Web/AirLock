@@ -16,6 +16,7 @@ public class Login extends AppCompatActivity {
     Button btnLogin;
     TextView lblOlvidastePssw;
     TextView lblCreateAccount;
+    TextView lblInvited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class Login extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnInitSesion);
         lblCreateAccount = findViewById(R.id.lblCreateAccount);
         lblOlvidastePssw = findViewById(R.id.lblOlvidastePssw);
+        lblInvited = findViewById(R.id.lblInvited);
 
         lblOlvidastePssw.setOnClickListener(v -> {
             msj("No avaliable");
@@ -37,6 +39,10 @@ public class Login extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
+            goHome();
+        });
+
+        lblInvited.setOnClickListener(v -> {
             goHome();
         });
 
