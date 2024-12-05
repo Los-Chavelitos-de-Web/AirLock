@@ -130,51 +130,42 @@ public class ProductosCtrl {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
                 String.format("%s/api/v1/productsSimilary", props.getProperty("BACKEND_HOST")),
                 jsonBody.names(),
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<Producto> productos = new ArrayList<>();
-                        try {
-                            // Process each product in the JSON array
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject productObject = response.getJSONObject(i);
+                response -> {
+                    List<Producto> productos = new ArrayList<>();
+                    try {
+                        // Process each product in the JSON array
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject productObject = response.getJSONObject(i);
 
-                                int id = productObject.getInt("ProductoID");
-                                String nombre = productObject.getString("Nombre");
-                                String descripcion = productObject.getString("Descripcion");
-                                Double p_compra = productObject.getDouble("PrecioCompra");
-                                Double p_venta = productObject.getDouble("PrecioVenta");
-                                int stock = productObject.getInt("Stock");
-                                int prov_id = productObject.getInt("ProveedorID");
-                                int fecha_i = productObject.getInt("FechaIngreso");
-                                String gem = productObject.getString("Genero");
-                                String marca = productObject.getString("Marca");
-                                String img = productObject.getString("img");
+                            int id = productObject.getInt("ProductoID");
+                            String nombre = productObject.getString("Nombre");
+                            String descripcion = productObject.getString("Descripcion");
+                            Double p_compra = productObject.getDouble("PrecioCompra");
+                            Double p_venta = productObject.getDouble("PrecioVenta");
+                            int stock = productObject.getInt("Stock");
+                            int prov_id = productObject.getInt("ProveedorID");
+                            int fecha_i = productObject.getInt("FechaIngreso");
+                            String gem = productObject.getString("Genero");
+                            String marca1 = productObject.getString("Marca");
+                            String img = productObject.getString("img");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
-                                productos.add(p);
-                            }
-                        } catch (JSONException e) {
-                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                            Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca1, img);
+                            productos.add(p);
                         }
+                    } catch (JSONException e) {
+                        Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                    }
 
-                        // Pass the list of products to the listener
-                        listener.onProductsFetched(productos);
-                    }
+                    // Pass the list of products to the listener
+                    listener.onProductsFetched(productos);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
-                    }
-                }) {
+                error -> Log.e("airlock_555", "Error en la solicitud: " + error.getMessage())) {
             @Override
             public byte[] getBody() {
                 return jsonBody.toString().getBytes(StandardCharsets.UTF_8);  // Convert JSON body to byte array
             }
         };
 
-        // Add the request to the request queue
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         requestQueue.add(request);
     }
@@ -182,7 +173,6 @@ public class ProductosCtrl {
     public void getProductsForId(final ProductFetchListener listener, int id) {
         Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/products");
 
-        // Create JSON body to send the product ID in the request body
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("ProductoID", id);
@@ -190,55 +180,44 @@ public class ProductosCtrl {
             Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
         }
 
-        // Use JsonArrayRequest since the response is a JSON array
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
                 String.format("%s/api/v1/products", props.getProperty("BACKEND_HOST")),
                 jsonBody.names(),
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<Producto> productos = new ArrayList<>();
-                        try {
-                            // Process each product in the JSON array
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject productObject = response.getJSONObject(i);
+                response -> {
+                    List<Producto> productos = new ArrayList<>();
+                    try {
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject productObject = response.getJSONObject(i);
 
-                                int id = productObject.getInt("ProductoID");
-                                String nombre = productObject.getString("Nombre");
-                                String descripcion = productObject.getString("Descripcion");
-                                Double p_compra = productObject.getDouble("PrecioCompra");
-                                Double p_venta = productObject.getDouble("PrecioVenta");
-                                int stock = productObject.getInt("Stock");
-                                int prov_id = productObject.getInt("ProveedorID");
-                                int fecha_i = productObject.getInt("FechaIngreso");
-                                String gem = productObject.getString("Genero");
-                                String marca = productObject.getString("Marca");
-                                String img = productObject.getString("img");
+                            int id1 = productObject.getInt("ProductoID");
+                            String nombre = productObject.getString("Nombre");
+                            String descripcion = productObject.getString("Descripcion");
+                            Double p_compra = productObject.getDouble("PrecioCompra");
+                            Double p_venta = productObject.getDouble("PrecioVenta");
+                            int stock = productObject.getInt("Stock");
+                            int prov_id = productObject.getInt("ProveedorID");
+                            int fecha_i = productObject.getInt("FechaIngreso");
+                            String gem = productObject.getString("Genero");
+                            String marca = productObject.getString("Marca");
+                            String img = productObject.getString("img");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
-                                productos.add(p);
-                            }
-                        } catch (JSONException e) {
-                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                            Producto p = new Producto(id1, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
+                            productos.add(p);
                         }
+                    } catch (JSONException e) {
+                        Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                    }
 
-                        // Pass the list of products to the listener
-                        listener.onProductsFetched(productos);
-                    }
+                    // Pass the list of products to the listener
+                    listener.onProductsFetched(productos);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
-                    }
-                }) {
+                error -> Log.e("airlock_555", "Error en la solicitud: " + error.getMessage())) {
             @Override
             public byte[] getBody() {
                 return jsonBody.toString().getBytes(StandardCharsets.UTF_8);  // Convert JSON body to byte array
             }
         };
 
-        // Add the request to the request queue
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         requestQueue.add(request);
     }
@@ -246,7 +225,6 @@ public class ProductosCtrl {
     public void searchProduct(String text_search, final ProductFetchListener listener, Context c) {
         Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/searchProducts");
 
-        // Create JSON body to send the product ID in the request body
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("text_search", text_search);
@@ -254,48 +232,40 @@ public class ProductosCtrl {
             Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
         }
 
-        // Use JsonArrayRequest since the response is a JSON array
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,
                 String.format("%s/api/v1/searchProducts", props.getProperty("BACKEND_HOST")),
                 jsonBody.names(),
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        List<Producto> productos = new ArrayList<>();
-                        try {
-                            // Process each product in the JSON array
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject productObject = response.getJSONObject(i);
+                response -> {
+                    List<Producto> productos = new ArrayList<>();
+                    try {
+                        for (int i = 0; i < response.length(); i++) {
+                            JSONObject productObject = response.getJSONObject(i);
 
-                                int id = productObject.getInt("ProductoID");
-                                String nombre = productObject.getString("Nombre");
-                                String descripcion = productObject.getString("Descripcion");
-                                Double p_compra = productObject.getDouble("PrecioCompra");
-                                Double p_venta = productObject.getDouble("PrecioVenta");
-                                int stock = productObject.getInt("Stock");
-                                int prov_id = productObject.getInt("ProveedorID");
-                                int fecha_i = productObject.getInt("FechaIngreso");
-                                String gem = productObject.getString("Genero");
-                                String marca = productObject.getString("Marca");
-                                String img = productObject.getString("img");
+                            int id = productObject.getInt("ProductoID");
+                            String nombre = productObject.getString("Nombre");
+                            String descripcion = productObject.getString("Descripcion");
+                            Double p_compra = productObject.getDouble("PrecioCompra");
+                            Double p_venta = productObject.getDouble("PrecioVenta");
+                            int stock = productObject.getInt("Stock");
+                            int prov_id = productObject.getInt("ProveedorID");
+                            int fecha_i = productObject.getInt("FechaIngreso");
+                            String gem = productObject.getString("Genero");
+                            String marca = productObject.getString("Marca");
+                            String img = productObject.getString("img");
 
-                                Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
-                                productos.add(p);
-                            }
-                        } catch (JSONException e) {
-                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                            Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
+                            productos.add(p);
                         }
+                    } catch (JSONException e) {
+                        Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                    }
 
-                        // Pass the list of products to the listener
-                        listener.onProductsFetched(productos);
-                    }
+                    // Pass the list of products to the listener
+                    listener.onProductsFetched(productos);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(c, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
-                    }
+                error -> {
+                    Toast.makeText(c, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
                 }) {
             @Override
             public byte[] getBody() {
@@ -303,7 +273,6 @@ public class ProductosCtrl {
             }
         };
 
-        // Add the request to the request queue
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         requestQueue.add(request);
     }
@@ -318,7 +287,6 @@ public class ProductosCtrl {
     ) {
         Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/auth/create-user");
 
-        // Crear cuerpo JSON para enviar los datos del usuario
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("nombre", nombre);
@@ -330,31 +298,24 @@ public class ProductosCtrl {
             Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
         }
 
-        // Usar JsonObjectRequest porque la respuesta es un objeto JSON
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
                 String.format("%s/api/v1/auth/create-user", props.getProperty("BACKEND_HOST")),
-                jsonBody,  // Cuerpo JSON a enviar
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            int status = response.getInt("status");
-                            String message = response.getString("message");
+                jsonBody,
+                response -> {
+                    try {
+                        int status = response.getInt("status");
+                        String message = response.getString("message");
 
-                            // Llamar al listener para manejar la respuesta
-                            listener.onResponse(status, message);
+                        // Llamar al listener para manejar la respuesta
+                        listener.onResponse(status, message);
 
-                        } catch (JSONException e) {
-                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
-                        }
+                    } catch (JSONException e) {
+                        Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
-                        listener.onError(error.getMessage());  // Llamar al listener en caso de error
-                    }
+                error -> {
+                    Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                    listener.onError(error.getMessage());  // Llamar al listener en caso de error
                 }) {
             @Override
             public byte[] getBody() {
@@ -362,7 +323,6 @@ public class ProductosCtrl {
             }
         };
 
-        // Añadir la solicitud a la cola de solicitudes
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         requestQueue.add(request);
     }
@@ -374,7 +334,6 @@ public class ProductosCtrl {
     ) {
         Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/auth/login-user");
 
-        // Crear cuerpo JSON para enviar los datos del usuario
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("email", email);
@@ -383,31 +342,23 @@ public class ProductosCtrl {
             Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
         }
 
-        // Usar JsonObjectRequest porque la respuesta es un objeto JSON
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
                 String.format("%s/api/v1/auth/login-user", props.getProperty("BACKEND_HOST")),
                 jsonBody,  // Cuerpo JSON a enviar
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            int status = response.getInt("status");
-                            String message = response.getString("message");
+                response -> {
+                    try {
+                        int status = response.getInt("status");
+                        String message = response.getString("message");
 
-                            // Llamar al listener para manejar la respuesta
-                            listener.onResponse(status, message);
+                        listener.onResponse(status, message);
 
-                        } catch (JSONException e) {
-                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
-                        }
+                    } catch (JSONException e) {
+                        Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
-                        listener.onError(error.getMessage());  // Llamar al listener en caso de error
-                    }
+                error -> {
+                    Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                    listener.onError(error.getMessage());
                 }) {
             @Override
             public byte[] getBody() {
@@ -415,7 +366,6 @@ public class ProductosCtrl {
             }
         };
 
-        // Añadir la solicitud a la cola de solicitudes
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         requestQueue.add(request);
     }
@@ -426,7 +376,6 @@ public class ProductosCtrl {
     ) {
         Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/auth/validate-email");
 
-        // Crear cuerpo JSON para enviar los datos del usuario
         JSONObject jsonBody = new JSONObject();
         try {
             jsonBody.put("email", email);
@@ -434,31 +383,23 @@ public class ProductosCtrl {
             Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
         }
 
-        // Usar JsonObjectRequest porque la respuesta es un objeto JSON
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
                 String.format("%s/api/v1/auth/validate-email", props.getProperty("BACKEND_HOST")),
-                jsonBody,  // Cuerpo JSON a enviar
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            int status = response.getInt("status");
-                            String message = response.getString("message");
+                jsonBody,
+                response -> {
+                    try {
+                        int status = response.getInt("status");
+                        String message = response.getString("message");
 
-                            // Llamar al listener para manejar la respuesta
-                            listener.onResponse(status, message);
+                        listener.onResponse(status, message);
 
-                        } catch (JSONException e) {
-                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
-                        }
+                    } catch (JSONException e) {
+                        Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
-                        listener.onError(error.getMessage());  // Llamar al listener en caso de error
-                    }
+                error -> {
+                    Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                    listener.onError(error.getMessage());
                 }) {
             @Override
             public byte[] getBody() {
@@ -466,7 +407,92 @@ public class ProductosCtrl {
             }
         };
 
-        // Añadir la solicitud a la cola de solicitudes
+        RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        requestQueue.add(request);
+    }
+
+    public void validateCode(
+            final CreateUserFetchListener listener,
+            String email,
+            String code
+    ) {
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/auth/validate-code");
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", email);
+            jsonBody.put("code", code.toUpperCase());
+        } catch (JSONException e) {
+            Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
+                String.format("%s/api/v1/auth/validate-code", props.getProperty("BACKEND_HOST")),
+                jsonBody,
+                response -> {
+                    try {
+                        int status = response.getInt("status");
+                        String message = response.getString("message");
+
+                        listener.onResponse(status, message);
+
+                    } catch (JSONException e) {
+                        Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                    }
+                },
+                error -> {
+                    Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                    listener.onError(error.getMessage());
+                }) {
+            @Override
+            public byte[] getBody() {
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        requestQueue.add(request);
+    }
+
+    public void deleteCode(
+            final CreateUserFetchListener listener,
+            String email,
+            String code
+    ) {
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/auth/delete-code");
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", email);
+            jsonBody.put("code", code.toUpperCase());
+        } catch (JSONException e) {
+            Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
+                String.format("%s/api/v1/auth/delete-code", props.getProperty("BACKEND_HOST")),
+                jsonBody,
+                response -> {
+                    try {
+                        int status = response.getInt("status");
+                        String message = response.getString("message");
+
+                        listener.onResponse(status, message);
+
+                    } catch (JSONException e) {
+                        Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                    }
+                },
+                error -> {
+                    Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                    listener.onError(error.getMessage());
+                }) {
+            @Override
+            public byte[] getBody() {
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
+        };
+
         RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
         requestQueue.add(request);
     }

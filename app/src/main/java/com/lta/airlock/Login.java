@@ -67,7 +67,7 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onError(String error) {
                     Log.e("airlock_555", "Error en la solicitud: " + error);
-                    Toast.makeText(v.getContext(), "Intente más tarde", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(v.getContext(), "Correo o contraseña inválidos", Toast.LENGTH_SHORT).show();
                 }
             }, correo, password);
         });
