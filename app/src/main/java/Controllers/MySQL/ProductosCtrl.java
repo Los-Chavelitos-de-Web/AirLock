@@ -420,4 +420,55 @@ public class ProductosCtrl {
         requestQueue.add(request);
     }
 
+    public void isValidateEmail(
+            final CreateUserFetchListener listener,
+            String email
+    ) {
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/auth/validate-email");
+
+        // Crear cuerpo JSON para enviar los datos del usuario
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", email);
+        } catch (JSONException e) {
+            Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
+        }
+
+        // Usar JsonObjectRequest porque la respuesta es un objeto JSON
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
+                String.format("%s/api/v1/auth/validate-email", props.getProperty("BACKEND_HOST")),
+                jsonBody,  // Cuerpo JSON a enviar
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int status = response.getInt("status");
+                            String message = response.getString("message");
+
+                            // Llamar al listener para manejar la respuesta
+                            listener.onResponse(status, message);
+
+                        } catch (JSONException e) {
+                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                        listener.onError(error.getMessage());  // Llamar al listener en caso de error
+                    }
+                }) {
+            @Override
+            public byte[] getBody() {
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
+        };
+
+        // Añadir la solicitud a la cola de solicitudes
+        RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        requestQueue.add(request);
+    }
+
 }

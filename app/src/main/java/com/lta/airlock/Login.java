@@ -54,6 +54,9 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
                     Log.i("airlock_555", "Respuesta del servidor: " + message);
                     if (status == 200) {
+                        Intent it = new Intent(v.getContext(), VerifyCode.class);
+                        it.putExtra("correo", correo);
+                        startActivity(it);
                         Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
                     } else if (status == 404) {
                         Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
