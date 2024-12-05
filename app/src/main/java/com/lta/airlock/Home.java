@@ -18,6 +18,7 @@ public class Home extends AppCompatActivity {
 
     ActivityMainBinding binding;
     BottomNavigationView btnNav;
+    String correo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class Home extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_home);
         replaceFragment(new FrElegant());
+        correo = getIntent().getStringExtra("correo");
 
         btnNav = findViewById(R.id.bottomNavigationView);
 
@@ -35,7 +37,7 @@ public class Home extends AppCompatActivity {
             } else if (itemId == R.id.casual) {
                 replaceFragment(new FrCasual());
             } else if (itemId == R.id.sports) {
-                replaceFragment(new FrSports());
+                replaceFragment(new FrSports(correo));
             }
 
             return true;

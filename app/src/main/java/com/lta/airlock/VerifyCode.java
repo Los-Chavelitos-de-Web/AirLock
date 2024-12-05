@@ -35,6 +35,11 @@ public class VerifyCode extends AppCompatActivity {
                 if (status == 200) {
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
                     Intent it = new Intent(getApplicationContext(), Home.class);
+                    if (correo != null) {
+                        it.putExtra("correo", correo);
+                    } else {
+                        it.putExtra("correo", "");
+                    }
                     startActivity(it);
                 } else if (status == 400) {
                     Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();

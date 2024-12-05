@@ -42,6 +42,7 @@ public class FrSports extends Fragment {
 
     private List<ProdCart> prods_cart;
     private ProdCart_Adapter adapter;
+    private String correo;
 
     private Button btnClearCart;
     private Button btnPay;
@@ -50,8 +51,8 @@ public class FrSports extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FrSports() {
-        // Required empty public constructor
+    public FrSports(String c) {
+        correo = c;
     }
 
     /**
@@ -64,7 +65,7 @@ public class FrSports extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static FrSports newInstance(String param1, String param2) {
-        FrSports fragment = new FrSports();
+        FrSports fragment = new FrSports("");
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -98,9 +99,13 @@ public class FrSports extends Fragment {
 
             btnPay.setOnClickListener(v -> {
                 try {
-                    Intent it = new Intent(view.getContext(), TotalPayment.class);
-                    it.putExtra("products", (Serializable) prods_cart);
-                    startActivity(it);
+                    if (correo != "") {
+                        Intent it = new Intent(view.getContext(), TotalPayment.class);
+                        it.putExtra("products", (Serializable) prods_cart);
+                        startActivity(it);
+                    } else {
+                        Toast.makeText(v.getContext(), "No puede comprar estando de invitado", Toast.LENGTH_SHORT).show();
+                    }
                 } catch (Exception e) {
                     Log.e("airlock_555", e.getMessage());
                 }
