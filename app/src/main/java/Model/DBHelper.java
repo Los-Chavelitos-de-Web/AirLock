@@ -28,19 +28,19 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_CART_PRODS_TABLE = "CREATE TABLE cart_prods (" +
+        /* String CREATE_CART_PRODS_TABLE = "CREATE TABLE cart_prods (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "prod_id INTEGER," +
                 "uri TEXT," +
                 "prod_name TEXT," +
                 "price REAL," +
                 "cant INTEGER DEFAULT 1);";
-        db.execSQL(CREATE_CART_PRODS_TABLE);
+        db.execSQL(CREATE_CART_PRODS_TABLE); */
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if (oldVersion < 2) { // If version 2 is greater than the current version
+        /* if (oldVersion < 2) { // If version 2 is greater than the current version
             // Example: Create the table if it doesn't exist already
             String CREATE_CART_PRODS_TABLE = "CREATE TABLE IF NOT EXISTS cart_prods (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -50,7 +50,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "price REAL," +
                     "cant INTEGER DEFAULT 1);";
             db.execSQL(CREATE_CART_PRODS_TABLE);
-        }
+        } */
     }
 
     public void createDatabase() throws IOException {
