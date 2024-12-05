@@ -99,9 +99,10 @@ public class FrSports extends Fragment {
 
             btnPay.setOnClickListener(v -> {
                 try {
-                    if (correo != "") {
-                        Intent it = new Intent(view.getContext(), TotalPayment.class);
-                        it.putExtra("products", (Serializable) prods_cart);
+                    if (correo != null) {
+                        Intent it = new Intent(v.getContext(), TotalPayment.class);
+                        it.putExtra("correo", correo);
+                        // it.putParcelableArrayListExtra("products", new ArrayList<>(prods_cart));
                         startActivity(it);
                     } else {
                         Toast.makeText(v.getContext(), "No puede comprar estando de invitado", Toast.LENGTH_SHORT).show();
@@ -115,7 +116,7 @@ public class FrSports extends Fragment {
 
                 new android.app.AlertDialog.Builder(view.getContext())
                         .setMessage("¿Estás seguro de que deseas vaciar el carrito?")
-                        .setCancelable(false) // Esto evita que se cierre tocando fuera del cuadro
+                        .setCancelable(false)
                         .setPositiveButton("Sí", (dialog, id) -> {
                             cartCtrl.deleteAllProducts();
 

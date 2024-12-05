@@ -76,6 +76,7 @@ public class VerifyCode extends AppCompatActivity {
                     if (status == 200) {
                         Intent it = new Intent(v.getContext(), Home.class);
                         Log.i("airlock_555", "Código validado exitosamente");
+                        it.putExtra("correo", correo);
                         // Guardar data en db
                         startActivity(it);
 
