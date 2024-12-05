@@ -2,12 +2,15 @@ package com.lta.airlock;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import Controllers.MySQL.ProductosCtrl;
 
 public class Login extends AppCompatActivity {
 
@@ -17,6 +20,7 @@ public class Login extends AppCompatActivity {
     TextView lblOlvidastePssw;
     TextView lblCreateAccount;
     TextView lblInvited;
+    ProductosCtrl productosCtrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,7 @@ public class Login extends AppCompatActivity {
         lblCreateAccount = findViewById(R.id.lblCreateAccount);
         lblOlvidastePssw = findViewById(R.id.lblOlvidastePssw);
         lblInvited = findViewById(R.id.lblInvited);
+        productosCtrl = new ProductosCtrl(this);
 
         lblOlvidastePssw.setOnClickListener(v -> {
             msj("No avaliable");
@@ -39,7 +44,29 @@ public class Login extends AppCompatActivity {
         });
 
         btnLogin.setOnClickListener(v -> {
-            goHome();
+
+            String correo = txtUsername.getText().toString();
+            String password = txtPassword.getText().toString();
+
+            productosCtrl.loginUser(new ProductosCtrl.CreateUserFetchListener() {
+                @Override
+                public void onResponse(int status, String message) {
+                    Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                    Log.i("airlock_555", "Respuesta del servidor: " + message);
+                    if (status == 200) {
+                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                    } else if (status == 404) {
+                        Toast.makeText(v.getContext(), message, Toast.LENGTH_SHORT).show();
+                        Log.e("airlock_555", message);
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e("airlock_555", "Error en la solicitud: " + error);
+                    Toast.makeText(v.getContext(), "Intente más tarde", Toast.LENGTH_SHORT).show();
+                }
+            }, correo, password);
         });
 
         lblInvited.setOnClickListener(v -> {

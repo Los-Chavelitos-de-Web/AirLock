@@ -316,7 +316,7 @@ public class ProductosCtrl {
             String email,
             String pssw
     ) {
-        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/create-user");
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/auth/create-user");
 
         // Crear cuerpo JSON para enviar los datos del usuario
         JSONObject jsonBody = new JSONObject();
@@ -332,7 +332,60 @@ public class ProductosCtrl {
 
         // Usar JsonObjectRequest porque la respuesta es un objeto JSON
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
-                String.format("%s/api/v1/create-user", props.getProperty("BACKEND_HOST")),
+                String.format("%s/api/v1/auth/create-user", props.getProperty("BACKEND_HOST")),
+                jsonBody,  // Cuerpo JSON a enviar
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            int status = response.getInt("status");
+                            String message = response.getString("message");
+
+                            // Llamar al listener para manejar la respuesta
+                            listener.onResponse(status, message);
+
+                        } catch (JSONException e) {
+                            Log.e("airlock_555", "Error al procesar el JSON: " + e.getMessage());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("airlock_555", "Error en la solicitud: " + error.getMessage());
+                        listener.onError(error.getMessage());  // Llamar al listener en caso de error
+                    }
+                }) {
+            @Override
+            public byte[] getBody() {
+                return jsonBody.toString().getBytes(StandardCharsets.UTF_8);
+            }
+        };
+
+        // Añadir la solicitud a la cola de solicitudes
+        RequestQueue requestQueue = Volley.newRequestQueue(context.getApplicationContext());
+        requestQueue.add(request);
+    }
+
+    public void loginUser(
+            final CreateUserFetchListener listener,
+            String email,
+            String pssw
+    ) {
+        Log.i("airlock_555", "Enviando solicitud a la URL: http://HOST/api/v1/auth/login-user");
+
+        // Crear cuerpo JSON para enviar los datos del usuario
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", email);
+            jsonBody.put("pssw", pssw);
+        } catch (JSONException e) {
+            Log.e("airlock_555", "Error al crear el JSON: " + e.getMessage());
+        }
+
+        // Usar JsonObjectRequest porque la respuesta es un objeto JSON
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,
+                String.format("%s/api/v1/auth/login-user", props.getProperty("BACKEND_HOST")),
                 jsonBody,  // Cuerpo JSON a enviar
                 new Response.Listener<JSONObject>() {
                     @Override

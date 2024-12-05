@@ -100,7 +100,7 @@
             android:background="#fff"
             android:ems="10"
             android:hint="TELEFONO"
-            android:inputType="text"
+            android:inputType="phone"
             android:padding="30px" />
 
         <EditText
@@ -112,7 +112,7 @@
             android:background="#fff"
             android:ems="10"
             android:hint="CORREO"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:padding="30px" />
 
         <EditText
