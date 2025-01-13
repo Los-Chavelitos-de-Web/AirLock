@@ -44,18 +44,14 @@ public class ProdCart_Adapter extends RecyclerView.Adapter<ProdCart_ViewHolder> 
         holder.lblPrecioProd.setText(String.valueOf(producto.getPrice()));
         holder.txtCantProd.setText(String.valueOf(producto.getCant()));
 
-        String imageUrl = producto.getUri();
+        /*String imageUrl = producto.getUri();
         Glide.with(holder.itemView.getContext())
                 .load(imageUrl)
-                .into(holder.uri);
+                .into(holder.uri);*/
 
         holder.txtCantProd.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!s.toString().isEmpty() && Integer.parseInt(s.toString()) >= 1) {
-                    producto.setCant(Integer.parseInt(s.toString()));
-                    new CartCtrl(new DBHelper(ctx)).updateCant(producto.getCart_id(), producto.getCant());
-                }
             }
 
             @Override

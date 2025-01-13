@@ -85,10 +85,10 @@ public class ProductosCtrl {
                                 Double p_venta = object.getDouble("PrecioVenta");
                                 int stock = object.getInt("Stock");
                                 int prov_id = object.getInt("ProveedorID");
-                                int fecha_i = object.getInt("FechaIngreso");
-                                String gen = object.getString("Genero");
-                                String marca = object.getString("Marca");
-                                String img = object.getString("img");
+                                String fecha_i = object.getString("FechaIngreso");
+                                String gen = "";
+                                String marca = "";
+                                String img = "";
 
                                 p = new Producto(
                                         id, nombre, descripcion, p_compra,
@@ -144,10 +144,10 @@ public class ProductosCtrl {
                             Double p_venta = productObject.getDouble("PrecioVenta");
                             int stock = productObject.getInt("Stock");
                             int prov_id = productObject.getInt("ProveedorID");
-                            int fecha_i = productObject.getInt("FechaIngreso");
-                            String gem = productObject.getString("Genero");
-                            String marca1 = productObject.getString("Marca");
-                            String img = productObject.getString("img");
+                            String fecha_i = productObject.getString("FechaIngreso");
+                            String gem = "";
+                            String marca1 = "";
+                            String img = "";
 
                             Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca1, img);
                             productos.add(p);
@@ -196,10 +196,10 @@ public class ProductosCtrl {
                             Double p_venta = productObject.getDouble("PrecioVenta");
                             int stock = productObject.getInt("Stock");
                             int prov_id = productObject.getInt("ProveedorID");
-                            int fecha_i = productObject.getInt("FechaIngreso");
-                            String gem = productObject.getString("Genero");
-                            String marca = productObject.getString("Marca");
-                            String img = productObject.getString("img");
+                            String fecha_i = productObject.getString("FechaIngreso");
+                            String gem = "";
+                            String marca = "";
+                            String img = "";
 
                             Producto p = new Producto(id1, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
                             productos.add(p);
@@ -248,10 +248,10 @@ public class ProductosCtrl {
                             Double p_venta = productObject.getDouble("PrecioVenta");
                             int stock = productObject.getInt("Stock");
                             int prov_id = productObject.getInt("ProveedorID");
-                            int fecha_i = productObject.getInt("FechaIngreso");
-                            String gem = productObject.getString("Genero");
-                            String marca = productObject.getString("Marca");
-                            String img = productObject.getString("img");
+                            String fecha_i = productObject.getString("FechaIngreso");
+                            String gem = "";
+                            String marca = "";
+                            String img = "";
 
                             Producto p = new Producto(id, nombre, descripcion, p_compra, p_venta, stock, prov_id, fecha_i, gem, marca, img);
                             productos.add(p);

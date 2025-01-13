@@ -10,7 +10,7 @@ public class Producto {
     private Double PrecioVenta;
     private int Stock;
     private int ProveedorID;
-    private int FechaIngreso;
+    private String FechaIngreso;
     private String gen;
     private String marca;
     private String img;
@@ -26,7 +26,7 @@ public class Producto {
         this.img = uri;
     }
 
-    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, int fechaIngreso, String gen, String marca, String uri) {
+    public Producto(int productoID, String nombre, String descripcion, Double precioCompra, Double precioVenta, int stock, int proveedorID, String fechaIngreso, String gen, String marca, String uri) {
         ProductoID = productoID;
         Nombre = nombre;
         Descripcion = descripcion;
@@ -120,11 +120,11 @@ public class Producto {
         ProveedorID = proveedorID;
     }
 
-    public int getFechaIngreso() {
+    public String getFechaIngreso() {
         return FechaIngreso;
     }
 
-    public void setFechaIngreso(int fechaIngreso) {
+    public void setFechaIngreso(String fechaIngreso) {
         FechaIngreso = fechaIngreso;
     }
 }

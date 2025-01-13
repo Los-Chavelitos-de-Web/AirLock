@@ -99,14 +99,10 @@ public class FrSports extends Fragment {
 
             btnPay.setOnClickListener(v -> {
                 try {
-                    if (correo != null) {
-                        Intent it = new Intent(v.getContext(), TotalPayment.class);
-                        it.putExtra("correo", correo);
-                        // it.putParcelableArrayListExtra("products", new ArrayList<>(prods_cart));
-                        startActivity(it);
-                    } else {
-                        Toast.makeText(v.getContext(), "No puede comprar estando de invitado", Toast.LENGTH_SHORT).show();
-                    }
+                    Intent it = new Intent(v.getContext(), TotalPayment.class);
+                    it.putExtra("correo", "JuanitoGutierrez@gmail.com");
+                    // it.putParcelableArrayListExtra("products", new ArrayList<>(prods_cart));
+                    startActivity(it);
                 } catch (Exception e) {
                     Log.e("airlock_555", e.getMessage());
                 }
@@ -147,7 +143,7 @@ public class FrSports extends Fragment {
             }
 
             adapter = new ProdCart_Adapter(view.getContext(), prods_cart);
-            Log.i("airlock_555", prods_cart.get(0).getUri());
+            //Log.i("airlock_555", prods_cart.get(0).getUri());
 
             rv.setLayoutManager(new LinearLayoutManager(view.getContext()));
             rv.setAdapter(adapter);

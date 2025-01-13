@@ -91,7 +91,9 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
 
     @Override
     public void onProductsFetched(List<Producto> p) {
-        this.productosM = filterElegantProducts(p, GENM);
+        adapter1.updateData(p);
+        adapter2.updateData(p);
+        /*this.productosM = filterElegantProducts(p, GENM);
         this.productosF = filterElegantProducts(p, GENF);
 
         if (productosM != null && !productosM.isEmpty()) {
@@ -103,7 +105,7 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
 
         } else {
             Log.e("airlock_555", "No products found.");
-        }
+        }*/
     }
 
     private List<Producto> filterElegantProducts(List<Producto> ps, Set<String> g) {
@@ -126,9 +128,9 @@ public class FrElegant extends Fragment implements ProductosCtrl.ProductFetchLis
         it.putExtra("descripcion", producto.getDescripcion());
         it.putExtra("precio", producto.getPrecioCompra());
         it.putExtra("cant", producto.getStock());
-        it.putExtra("gen", producto.getGen());
+        /*it.putExtra("gen", producto.getGen());
         it.putExtra("marca", producto.getMarca());
-        it.putExtra("img", producto.getImg());
+        it.putExtra("img", producto.getImg());*/
         startActivity(it);
     }
 }
