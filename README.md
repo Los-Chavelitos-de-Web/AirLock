@@ -1,12 +1,12 @@
+# ⌚ AirClock
+Aplicacion para el proceso de ventas en la empresa AirClock usando tecnologias para la parte visual con **Android Studio**,
+servidor con **Express**, pasarela de pago con **MercadoPago API** y **Nodemailer** para el envío de correos electrónicos.
+
 <p align="center">
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=androidstudio,java,express" />
   </a>
 </p>
-
-# ⌚ AirClock
-Aplicacion para el proceso de ventas en la empresa AirClock usando tecnologias para la parte visual con **Android Studio**,
-servidor con **Express**, pasarela de pago con **MercadoPago API** y **Nodemailer** para el envío de correos electrónicos.
 
 ## 📱 Project Running on Android Device
 https://github.com/user-attachments/assets/44b97e5c-7ec7-4f09-b512-6c868056cbea
